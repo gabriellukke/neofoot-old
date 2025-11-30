@@ -65,7 +65,8 @@
 
   let team = $state<Team | null>(null);
   let players = $state<Player[]>([]);
-  let isLoadingData = true;
+  let isLoadingData = $state(true);
+  let error = $state<string | null>(null);
   let alertState = $state<AlertState>({
     open: false,
     title: '',
@@ -82,36 +83,27 @@
   }
 
   onMount(async () => {
-    console.log('Team page mounted, teamId:', data.teamId);
     await loadTeamData();
   });
 
   async function loadTeamData() {
-    console.log('loadTeamData called');
     try {
       isLoadingData = true;
-      console.log('Loading team with ID:', data.teamId);
+      error = null;
 
       const foundTeam = await invoke<Team | null>('get_team', { teamId: data.teamId });
-      console.log('Team loaded:', foundTeam);
 
       if (!foundTeam) {
-        console.error('Team not found');
-        showAlert($_('team.errors.notFound'), $_('team.errors.notFoundMessage'));
-        setTimeout(() => goto('/editor'), 2000);
+        error = 'Team not found';
         return;
       }
 
       team = foundTeam;
-      console.log('Loading players for team:', data.teamId);
       players = await invoke<Player[]>('get_players', { teamId: data.teamId });
-      console.log('Players loaded:', players.length);
-    } catch (error) {
-      console.error('Failed to load team data:', error);
-      showAlert($_('team.errors.loadFailed'), String(error));
-      setTimeout(() => goto('/editor'), 2000);
+    } catch (err) {
+      console.error('Failed to load team data:', err);
+      error = String(err);
     } finally {
-      console.log('Setting isLoadingData to false');
       isLoadingData = false;
     }
   }
@@ -166,6 +158,16 @@
   <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
     <div class="text-white">Loading team data...</div>
   </main>
+{:else if error}
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8">
+    <div class="text-center">
+      <h1 class="mb-4 text-3xl font-bold text-white">{$_('team.errors.loadFailed')}</h1>
+      <p class="text-slate-400 max-w-md">{error}</p>
+    </div>
+    <Button variant="outline" onclick={handleBackToLeague}>
+      {$_('team.backToLeague')}
+    </Button>
+  </main>
 {:else if team}
   <main class="flex min-h-screen flex-col bg-gradient-to-b from-slate-900 to-slate-800 p-8">
     <div class="mb-8 flex items-center justify-between">
@@ -218,7 +220,7 @@
               </tr>
             </thead>
             <tbody>
-              {#each players.sort((a, b) => a.shirt_number - b.shirt_number) as player}
+              {#each [...players].sort((a, b) => a.shirt_number - b.shirt_number) as player}
                 <tr class="border-b border-slate-700/50 transition-colors hover:bg-slate-700/30">
                   <td class="py-3 text-slate-300">{player.shirt_number}</td>
                   <td class="py-3">
@@ -241,7 +243,13 @@
     </div>
   </main>
 {:else}
-  <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
-    <div class="text-white">Team not found</div>
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8">
+    <div class="text-center">
+      <h1 class="mb-4 text-3xl font-bold text-white">Unexpected State</h1>
+      <p class="text-slate-400 max-w-md">isLoadingData: {isLoadingData}, error: {error}, team: {team ? 'loaded' : 'null'}</p>
+    </div>
+    <Button variant="outline" onclick={() => goto('/editor')}>
+      Back to Editor
+    </Button>
   </main>
 {/if}

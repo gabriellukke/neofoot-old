@@ -58,4 +58,20 @@ impl League {
             .fetch_all(&pool)
             .await
     }
+
+    pub async fn get_by_id(pool: Pool, id: i64) -> Result<Option<League>, sqlx::Error> {
+        sqlx::query_as::<_, League>("SELECT * FROM leagues WHERE id = ?")
+            .bind(id)
+            .fetch_optional(&pool)
+            .await
+    }
+
+    pub async fn delete(pool: Pool, id: i64) -> Result<bool, sqlx::Error> {
+        let result = sqlx::query("DELETE FROM leagues WHERE id = ?")
+            .bind(id)
+            .execute(&pool)
+            .await?;
+
+        Ok(result.rows_affected() > 0)
+    }
 }

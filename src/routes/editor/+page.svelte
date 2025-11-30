@@ -2,6 +2,7 @@
   import { _, isLoading } from 'svelte-i18n';
   import { Button } from '$lib/components/ui/button';
   import { Alert } from '$lib/components/ui/alert';
+  import Dialog from '$lib/components/ui/dialog/Dialog.svelte';
   import { invoke } from '@tauri-apps/api/core';
   import { open } from '@tauri-apps/plugin-dialog';
   import { readTextFile } from '@tauri-apps/plugin-fs';
@@ -40,6 +41,8 @@
   let leagues = $state<League[]>([]);
   let isImporting = $state(false);
   let currentGameId = $state<number | null>(null);
+  let leagueToDelete = $state<League | null>(null);
+  let showDeleteDialog = $state(false);
   let alertState = $state<AlertState>({
     open: false,
     title: '',
@@ -138,6 +141,40 @@
   function handleViewLeague(leagueId: number) {
     goto(`/editor/league/${leagueId}`);
   }
+
+  function handleDeleteLeagueClick(league: League) {
+    leagueToDelete = league;
+    showDeleteDialog = true;
+  }
+
+  function closeDeleteDialog() {
+    showDeleteDialog = false;
+    leagueToDelete = null;
+  }
+
+  async function confirmDeleteLeague() {
+    if (!leagueToDelete) return;
+
+    try {
+      const success = await invoke<boolean>('delete_league', { leagueId: leagueToDelete.id });
+      
+      if (success) {
+        showAlert(
+          $_('editor.success.deleteComplete'),
+          $_('editor.success.deleteCompleteMessage'),
+          'success'
+        );
+        await loadLeagues();
+      } else {
+        showAlert($_('editor.errors.deleteFailed'), $_('editor.errors.deleteFailedMessage'));
+      }
+    } catch (error) {
+      console.error('Delete failed:', error);
+      showAlert($_('editor.errors.deleteFailed'), String(error));
+    } finally {
+      closeDeleteDialog();
+    }
+  }
 </script>
 
 <Alert
@@ -147,6 +184,23 @@
   variant={alertState.variant}
   onClose={closeAlert}
 />
+
+<Dialog
+  open={showDeleteDialog}
+  title={$_('editor.deleteDialog.title')}
+  onClose={closeDeleteDialog}
+>
+  {#snippet children()}
+    <p class="text-slate-300">
+      {$_('editor.deleteDialog.message', { values: { leagueName: leagueToDelete?.name || '' } })}
+    </p>
+  {/snippet}
+  {#snippet actions()}
+    <Button variant="destructive" onclick={confirmDeleteLeague}>
+      {$_('editor.deleteDialog.confirmButton')}
+    </Button>
+  {/snippet}
+</Dialog>
 
 {#if $isLoading}
   <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
@@ -202,14 +256,24 @@
                   <p>{league.country} - Division {league.division}</p>
                   <p>Season: {league.season}</p>
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  class="mt-3 w-full"
-                  onclick={() => handleViewLeague(league.id)}
-                >
-                  {$_('editor.leaguesSection.viewLeague')}
-                </Button>
+                <div class="mt-3 flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    class="flex-1"
+                    onclick={() => handleViewLeague(league.id)}
+                  >
+                    {$_('editor.leaguesSection.viewLeague')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    class="text-red-400 hover:bg-red-900/50 hover:text-red-300"
+                    onclick={() => handleDeleteLeagueClick(league)}
+                  >
+                    {$_('editor.leaguesSection.deleteLeague')}
+                  </Button>
+                </div>
               </div>
             {/each}
           </div>

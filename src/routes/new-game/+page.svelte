@@ -52,6 +52,7 @@
   let selectedTeam = $state<Team | null>(null);
   let currentGameId = $state<number | null>(null);
   let isLoadingData = $state(true);
+  let error = $state<string | null>(null);
   let alertState = $state<AlertState>({
     open: false,
     title: '',
@@ -74,6 +75,7 @@
   async function loadGameAndLeagues() {
     try {
       isLoadingData = true;
+      error = null;
 
       const allGames = await invoke<Game[]>('get_all_games');
       if (allGames.length === 0) {
@@ -93,9 +95,9 @@
         return acc;
       }, {} as LeaguesByCountry);
 
-    } catch (error) {
-      console.error('Failed to load data:', error);
-      showAlert($_('newGame.errors.loadFailed'), String(error));
+    } catch (err) {
+      console.error('Failed to load data:', err);
+      error = String(err);
     } finally {
       isLoadingData = false;
     }
@@ -145,6 +147,16 @@
 {:else if isLoadingData}
   <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
     <div class="text-white">Loading game data...</div>
+  </main>
+{:else if error}
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8">
+    <div class="text-center">
+      <h1 class="mb-4 text-3xl font-bold text-white">{$_('newGame.errors.loadFailed')}</h1>
+      <p class="text-slate-400 max-w-md">{error}</p>
+    </div>
+    <Button variant="outline" onclick={handleBackToMenu}>
+      {$_('newGame.backToMenu')}
+    </Button>
   </main>
 {:else}
   <main class="flex min-h-screen flex-col bg-gradient-to-b from-slate-900 to-slate-800 p-8">

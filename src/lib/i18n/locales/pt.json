@@ -20,16 +20,26 @@
     "leaguesSection": {
       "title": "Ligas Importadas",
       "noLeagues": "Nenhuma liga importada ainda.",
-      "viewLeague": "Ver Liga"
+      "viewLeague": "Ver Liga",
+      "deleteLeague": "Excluir"
+    },
+    "deleteDialog": {
+      "title": "Excluir Liga",
+      "message": "Tem certeza de que deseja excluir {leagueName}? Isso removerá permanentemente a liga e todos os seus times e jogadores. Esta ação não pode ser desfeita.",
+      "confirmButton": "Excluir Liga"
     },
     "errors": {
       "invalidFile": "Formato de arquivo inválido. Por favor, selecione um arquivo JSON válido.",
       "importFailed": "Falha ao importar liga",
       "noGameSelected": "Nenhum jogo selecionado. Por favor, crie ou carregue um jogo primeiro.",
-      "fileReadError": "Falha ao ler arquivo"
+      "fileReadError": "Falha ao ler arquivo",
+      "deleteFailed": "Falha ao excluir liga",
+      "deleteFailedMessage": "A liga não pôde ser excluída."
     },
     "success": {
-      "importComplete": "Liga importada com sucesso"
+      "importComplete": "Liga importada com sucesso",
+      "deleteComplete": "Liga excluída com sucesso",
+      "deleteCompleteMessage": "A liga e todos os seus dados foram removidos."
     }
   },
   "league": {
@@ -109,7 +119,9 @@
     "season": "Temporada",
     "squad": {
       "title": "Elenco",
-      "players": "jogadores"
+      "players": "jogadores",
+      "groupedView": "Agrupado por Posição",
+      "listView": "Visualização em Lista"
     },
     "positions": {
       "goalkeepers": "Goleiros",

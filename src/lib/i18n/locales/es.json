@@ -20,16 +20,26 @@
     "leaguesSection": {
       "title": "Ligas Importadas",
       "noLeagues": "No hay ligas importadas aún.",
-      "viewLeague": "Ver Liga"
+      "viewLeague": "Ver Liga",
+      "deleteLeague": "Eliminar"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Liga",
+      "message": "¿Estás seguro de que quieres eliminar {leagueName}? Esto eliminará permanentemente la liga y todos sus equipos y jugadores. Esta acción no se puede deshacer.",
+      "confirmButton": "Eliminar Liga"
     },
     "errors": {
       "invalidFile": "Formato de archivo inválido. Por favor, selecciona un archivo JSON válido.",
       "importFailed": "Error al importar liga",
       "noGameSelected": "No hay juego seleccionado. Por favor, crea o carga un juego primero.",
-      "fileReadError": "Error al leer archivo"
+      "fileReadError": "Error al leer archivo",
+      "deleteFailed": "Error al eliminar liga",
+      "deleteFailedMessage": "La liga no pudo ser eliminada."
     },
     "success": {
-      "importComplete": "Liga importada exitosamente"
+      "importComplete": "Liga importada exitosamente",
+      "deleteComplete": "Liga eliminada exitosamente",
+      "deleteCompleteMessage": "La liga y todos sus datos han sido eliminados."
     }
   },
   "league": {
@@ -109,7 +119,9 @@
     "season": "Temporada",
     "squad": {
       "title": "Plantilla",
-      "players": "jugadores"
+      "players": "jugadores",
+      "groupedView": "Agrupado por Posición",
+      "listView": "Vista de Lista"
     },
     "positions": {
       "goalkeepers": "Porteros",

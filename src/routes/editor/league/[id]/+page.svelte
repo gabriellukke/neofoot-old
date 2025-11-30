@@ -50,7 +50,8 @@
 
   let league = $state<League | null>(null);
   let teams = $state<Team[]>([]);
-  let isLoadingData = true;
+  let isLoadingData = $state(true);
+  let error = $state<string | null>(null);
   let alertState = $state<AlertState>({
     open: false,
     title: '',
@@ -73,11 +74,11 @@
   async function loadLeagueData() {
     try {
       isLoadingData = true;
+      error = null;
 
       const allGames = await invoke<Game[]>('get_all_games');
       if (allGames.length === 0) {
-        showAlert($_('league.errors.noGame'), $_('league.errors.noGameMessage'));
-        setTimeout(() => goto('/editor'), 2000);
+        error = $_('league.errors.noGameMessage');
         return;
       }
 
@@ -88,16 +89,14 @@
       league = allLeagues.find(l => l.id === data.leagueId) || null;
 
       if (!league) {
-        showAlert($_('league.errors.notFound'), $_('league.errors.notFoundMessage'));
-        setTimeout(() => goto('/editor'), 2000);
+        error = $_('league.errors.notFoundMessage');
         return;
       }
 
       teams = await invoke<Team[]>('get_teams', { leagueId: data.leagueId });
-    } catch (error) {
-      console.error('Failed to load league data:', error);
-      showAlert($_('league.errors.loadFailed'), String(error));
-      setTimeout(() => goto('/editor'), 2000);
+    } catch (err) {
+      console.error('Failed to load league data:', err);
+      error = String(err);
     } finally {
       isLoadingData = false;
     }
@@ -135,6 +134,16 @@
 {:else if isLoadingData}
   <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
     <div class="text-white">Loading league data...</div>
+  </main>
+{:else if error}
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8">
+    <div class="text-center">
+      <h1 class="mb-4 text-3xl font-bold text-white">{$_('league.errors.loadFailed')}</h1>
+      <p class="text-slate-400 max-w-md">{error}</p>
+    </div>
+    <Button variant="outline" onclick={handleBackToEditor}>
+      {$_('league.backToEditor')}
+    </Button>
   </main>
 {:else if league}
   <main class="flex min-h-screen flex-col bg-gradient-to-b from-slate-900 to-slate-800 p-8">
@@ -184,9 +193,5 @@
         </div>
       {/if}
     </div>
-  </main>
-{:else}
-  <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
-    <div class="text-white">League not found</div>
   </main>
 {/if}

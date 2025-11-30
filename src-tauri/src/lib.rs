@@ -59,6 +59,20 @@ async fn get_leagues(state: State<'_, AppState>, game_id: i64) -> Result<Vec<Lea
 }
 
 #[tauri::command]
+async fn get_league(state: State<'_, AppState>, league_id: i64) -> Result<Option<League>, String> {
+    League::get_by_id(state.db.clone(), league_id)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn delete_league(state: State<'_, AppState>, league_id: i64) -> Result<bool, String> {
+    League::delete(state.db.clone(), league_id)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
 async fn get_team(state: State<'_, AppState>, team_id: i64) -> Result<Option<Team>, String> {
     Team::get_by_id(state.db.clone(), team_id)
         .await
@@ -109,6 +123,8 @@ pub fn run() {
             delete_game,
             import_league,
             get_leagues,
+            get_league,
+            delete_league,
             get_team,
             get_teams,
             get_players

@@ -20,16 +20,26 @@
     "leaguesSection": {
       "title": "Imported Leagues",
       "noLeagues": "No leagues imported yet.",
-      "viewLeague": "View League"
+      "viewLeague": "View League",
+      "deleteLeague": "Delete"
+    },
+    "deleteDialog": {
+      "title": "Delete League",
+      "message": "Are you sure you want to delete {leagueName}? This will permanently remove the league and all its teams and players. This action cannot be undone.",
+      "confirmButton": "Delete League"
     },
     "errors": {
       "invalidFile": "Invalid file format. Please select a valid JSON file.",
       "importFailed": "Failed to import league",
       "noGameSelected": "No game selected. Please create or load a game first.",
-      "fileReadError": "Failed to read file"
+      "fileReadError": "Failed to read file",
+      "deleteFailed": "Failed to delete league",
+      "deleteFailedMessage": "The league could not be deleted."
     },
     "success": {
-      "importComplete": "League imported successfully"
+      "importComplete": "League imported successfully",
+      "deleteComplete": "League deleted successfully",
+      "deleteCompleteMessage": "The league and all its data have been removed."
     }
   },
   "league": {
@@ -109,7 +119,9 @@
     "season": "Season",
     "squad": {
       "title": "Squad",
-      "players": "players"
+      "players": "players",
+      "groupedView": "Grouped by Position",
+      "listView": "List View"
     },
     "positions": {
       "goalkeepers": "Goalkeepers",

@@ -15,14 +15,14 @@
 
 {#if open}
   <div class="fixed inset-0 z-50 flex items-center justify-center">
-    <div class="bg-background/80 fixed inset-0" onclick={onClose}></div>
+    <div class="fixed inset-0 bg-black/60" onclick={onClose}></div>
     <div
-      class="bg-background relative z-10 w-full max-w-md rounded-lg border p-6 shadow-lg"
+      class="relative z-10 w-full max-w-md rounded-lg border border-slate-700 bg-slate-800 p-6 shadow-xl"
       role="dialog"
       aria-modal="true"
       aria-labelledby="dialog-title"
     >
-      <h2 id="dialog-title" class="text-foreground mb-4 text-xl font-semibold">{title}</h2>
+      <h2 id="dialog-title" class="mb-4 text-xl font-semibold text-white">{title}</h2>
       <div class="mb-6">
         {@render children?.()}
       </div>
