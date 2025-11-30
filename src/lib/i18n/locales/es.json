@@ -6,8 +6,149 @@
   "menu": {
     "newGame": "Nuevo Juego",
     "loadGame": "Cargar Juego",
-    "settings": "Configuración",
-    "quit": "Salir"
+    "teamEditor": "Editor de Equipos",
+    "exit": "Salir del Juego"
+  },
+  "editor": {
+    "title": "Editor de Equipos y Ligas",
+    "backToMenu": "Volver al Menú",
+    "importSection": {
+      "title": "Importar Datos de Liga",
+      "description": "Importa equipos y jugadores desde archivos JSON. Los archivos de liga creados por la comunidad se pueden usar para personalizar tu juego.",
+      "importButton": "Importar Archivo de Liga"
+    },
+    "leaguesSection": {
+      "title": "Ligas Importadas",
+      "noLeagues": "No hay ligas importadas aún.",
+      "viewLeague": "Ver Liga"
+    },
+    "errors": {
+      "invalidFile": "Formato de archivo inválido. Por favor, selecciona un archivo JSON válido.",
+      "importFailed": "Error al importar liga",
+      "noGameSelected": "No hay juego seleccionado. Por favor, crea o carga un juego primero.",
+      "fileReadError": "Error al leer archivo"
+    },
+    "success": {
+      "importComplete": "Liga importada exitosamente"
+    }
+  },
+  "league": {
+    "title": "Detalles de la Liga",
+    "backToEditor": "Volver al Editor",
+    "teamsTitle": "Equipos",
+    "noTeams": "No se encontraron equipos en esta liga.",
+    "viewTeam": "Ver Equipo",
+    "info": {
+      "country": "País",
+      "division": "División",
+      "season": "Temporada"
+    },
+    "errors": {
+      "invalidId": "ID de Liga Inválido",
+      "invalidIdMessage": "El ID de liga proporcionado es inválido. Redirigiendo al editor...",
+      "noGame": "Juego No Encontrado",
+      "noGameMessage": "No se encontró ningún juego. Por favor, crea un juego primero.",
+      "notFound": "Liga No Encontrada",
+      "notFoundMessage": "No se pudo encontrar la liga solicitada.",
+      "loadFailed": "Error al Cargar Liga"
+    }
+  },
+  "team": {
+    "title": "Detalles del Equipo",
+    "backToLeague": "Volver a la Liga",
+    "playersTitle": "Jugadores",
+    "noPlayers": "No se encontraron jugadores en este equipo.",
+    "info": {
+      "stadium": "Estadio",
+      "capacity": "Capacidad",
+      "budget": "Presupuesto",
+      "reputation": "Reputación"
+    },
+    "player": {
+      "position": "Posición",
+      "nationality": "Nacionalidad",
+      "age": "Edad",
+      "number": "Número",
+      "overall": "Overall"
+    },
+    "errors": {
+      "invalidId": "ID de Equipo Inválido",
+      "invalidIdMessage": "El ID del equipo proporcionado es inválido. Redirigiendo al editor...",
+      "noGame": "Juego No Encontrado",
+      "noGameMessage": "No se encontró ningún juego. Por favor, crea un juego primero.",
+      "notFound": "Equipo No Encontrado",
+      "notFoundMessage": "No se pudo encontrar el equipo solicitado.",
+      "loadFailed": "Error al Cargar Equipo"
+    }
+  },
+  "newGame": {
+    "title": "Nuevo Juego",
+    "backToMenu": "Volver al Menú",
+    "selectLeague": "Seleccionar Liga",
+    "selectLeaguePrompt": "Selecciona una liga para ver los equipos",
+    "selectTeam": "Selecciona Tu Equipo",
+    "startGame": "Iniciar Juego",
+    "selected": "Seleccionado",
+    "noTeams": "No se encontraron equipos en esta liga.",
+    "leagueInfo": {
+      "division": "División",
+      "season": "Temporada"
+    },
+    "noLeagues": {
+      "title": "No Hay Ligas Disponibles",
+      "message": "Necesitas importar ligas antes de iniciar un nuevo juego. Ve al Editor de Equipos para importar datos de liga.",
+      "goToEditor": "Ir al Editor de Equipos"
+    },
+    "errors": {
+      "loadFailed": "Error al Cargar Datos",
+      "loadTeamsFailed": "Error al Cargar Equipos"
+    }
+  },
+  "manage": {
+    "menu": "Menú",
+    "season": "Temporada",
+    "squad": {
+      "title": "Plantilla",
+      "players": "jugadores"
+    },
+    "positions": {
+      "goalkeepers": "Porteros",
+      "defenders": "Defensas",
+      "midfielders": "Centrocampistas",
+      "forwards": "Delanteros"
+    },
+    "table": {
+      "number": "#",
+      "pos": "Pos",
+      "name": "Nombre",
+      "age": "Edad",
+      "nat": "Nac",
+      "ovr": "OVR"
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "number": "Número",
+      "name": "Nombre",
+      "age": "Edad",
+      "nationality": "Nacionalidad",
+      "overall": "Overall"
+    },
+    "nextMatch": {
+      "title": "Próximo Partido",
+      "noMatch": "No hay partidos programados"
+    },
+    "teamInfo": {
+      "title": "Info del Equipo"
+    },
+    "standings": {
+      "title": "Clasificación",
+      "notAvailable": "Aún no disponible"
+    },
+    "errors": {
+      "teamNotFound": "Equipo No Encontrado",
+      "teamNotFoundMessage": "No se pudo encontrar el equipo. Redirigiendo al menú principal...",
+      "loadFailed": "Error al Cargar Datos del Juego"
+    }
   },
   "version": "v0.1.0"
 }

@@ -6,8 +6,149 @@
   "menu": {
     "newGame": "New Game",
     "loadGame": "Load Game",
-    "settings": "Settings",
-    "quit": "Quit"
+    "teamEditor": "Team Editor",
+    "exit": "Exit Game"
+  },
+  "editor": {
+    "title": "Team & League Editor",
+    "backToMenu": "Back to Menu",
+    "importSection": {
+      "title": "Import League Data",
+      "description": "Import teams and players from JSON files. Community-created league files can be used to customize your game.",
+      "importButton": "Import League File"
+    },
+    "leaguesSection": {
+      "title": "Imported Leagues",
+      "noLeagues": "No leagues imported yet.",
+      "viewLeague": "View League"
+    },
+    "errors": {
+      "invalidFile": "Invalid file format. Please select a valid JSON file.",
+      "importFailed": "Failed to import league",
+      "noGameSelected": "No game selected. Please create or load a game first.",
+      "fileReadError": "Failed to read file"
+    },
+    "success": {
+      "importComplete": "League imported successfully"
+    }
+  },
+  "league": {
+    "title": "League Details",
+    "backToEditor": "Back to Editor",
+    "teamsTitle": "Teams",
+    "noTeams": "No teams found in this league.",
+    "viewTeam": "View Team",
+    "info": {
+      "country": "Country",
+      "division": "Division",
+      "season": "Season"
+    },
+    "errors": {
+      "invalidId": "Invalid League ID",
+      "invalidIdMessage": "The league ID provided is invalid. Redirecting to editor...",
+      "noGame": "No Game Found",
+      "noGameMessage": "No game found. Please create a game first.",
+      "notFound": "League Not Found",
+      "notFoundMessage": "The requested league could not be found.",
+      "loadFailed": "Failed to Load League"
+    }
+  },
+  "team": {
+    "title": "Team Details",
+    "backToLeague": "Back to League",
+    "playersTitle": "Players",
+    "noPlayers": "No players found in this team.",
+    "info": {
+      "stadium": "Stadium",
+      "capacity": "Capacity",
+      "budget": "Budget",
+      "reputation": "Reputation"
+    },
+    "player": {
+      "position": "Position",
+      "nationality": "Nationality",
+      "age": "Age",
+      "number": "Number",
+      "overall": "Overall"
+    },
+    "errors": {
+      "invalidId": "Invalid Team ID",
+      "invalidIdMessage": "The team ID provided is invalid. Redirecting to editor...",
+      "noGame": "No Game Found",
+      "noGameMessage": "No game found. Please create a game first.",
+      "notFound": "Team Not Found",
+      "notFoundMessage": "The requested team could not be found.",
+      "loadFailed": "Failed to Load Team"
+    }
+  },
+  "newGame": {
+    "title": "New Game",
+    "backToMenu": "Back to Menu",
+    "selectLeague": "Select League",
+    "selectLeaguePrompt": "Select a league to view teams",
+    "selectTeam": "Select Your Team",
+    "startGame": "Start Game",
+    "selected": "Selected",
+    "noTeams": "No teams found in this league.",
+    "leagueInfo": {
+      "division": "Division",
+      "season": "Season"
+    },
+    "noLeagues": {
+      "title": "No Leagues Available",
+      "message": "You need to import leagues before starting a new game. Go to the Team Editor to import league data.",
+      "goToEditor": "Go to Team Editor"
+    },
+    "errors": {
+      "loadFailed": "Failed to Load Data",
+      "loadTeamsFailed": "Failed to Load Teams"
+    }
+  },
+  "manage": {
+    "menu": "Menu",
+    "season": "Season",
+    "squad": {
+      "title": "Squad",
+      "players": "players"
+    },
+    "positions": {
+      "goalkeepers": "Goalkeepers",
+      "defenders": "Defenders",
+      "midfielders": "Midfielders",
+      "forwards": "Forwards"
+    },
+    "table": {
+      "number": "#",
+      "pos": "Pos",
+      "name": "Name",
+      "age": "Age",
+      "nat": "Nat",
+      "ovr": "OVR"
+    },
+    "sort": {
+      "label": "Sort by",
+      "number": "Number",
+      "name": "Name",
+      "age": "Age",
+      "nationality": "Nationality",
+      "overall": "Overall"
+    },
+    "nextMatch": {
+      "title": "Next Match",
+      "noMatch": "No matches scheduled"
+    },
+    "teamInfo": {
+      "title": "Team Info"
+    },
+    "standings": {
+      "title": "Standings",
+      "notAvailable": "Not available yet"
+    },
+    "errors": {
+      "teamNotFound": "Team Not Found",
+      "teamNotFoundMessage": "The team could not be found. Redirecting to main menu...",
+      "loadFailed": "Failed to Load Game Data"
+    }
   },
   "version": "v0.1.0"
 }

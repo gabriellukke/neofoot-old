@@ -1,0 +1,662 @@
+{
+  "league": {
+    "name": "Campeonato Brasileiro Série A",
+    "country": "Brazil",
+    "division": 1,
+    "season": 2025
+  },
+  "teams": [
+    {
+      "name": "Flamengo",
+      "short_name": "FLA",
+      "stadium": {
+        "name": "Maracanã",
+        "capacity": 78838
+      },
+      "budget": 50000000,
+      "reputation": 85,
+      "players": [
+        {
+          "name": "Rossi",
+          "position": "GK",
+          "birth_date": "1992-02-12",
+          "nationality": "Argentina",
+          "shirt_number": 1,
+          "overall": 78,
+          "attributes": {
+            "diving": 80,
+            "handling": 78,
+            "kicking": 72,
+            "reflexes": 82,
+            "positioning": 76
+          }
+        },
+        {
+          "name": "Fabrício Bruno",
+          "position": "DEF",
+          "birth_date": "1996-03-11",
+          "nationality": "Brazil",
+          "shirt_number": 15,
+          "overall": 75,
+          "attributes": {
+            "pace": 72,
+            "shooting": 45,
+            "passing": 68,
+            "dribbling": 60,
+            "defending": 82,
+            "physical": 80
+          }
+        },
+        {
+          "name": "Léo Pereira",
+          "position": "DEF",
+          "birth_date": "1996-01-31",
+          "nationality": "Brazil",
+          "shirt_number": 4,
+          "overall": 74,
+          "attributes": {
+            "pace": 70,
+            "shooting": 42,
+            "passing": 70,
+            "dribbling": 62,
+            "defending": 80,
+            "physical": 78
+          }
+        },
+        {
+          "name": "Ayrton Lucas",
+          "position": "DEF",
+          "birth_date": "1997-01-19",
+          "nationality": "Brazil",
+          "shirt_number": 6,
+          "overall": 73,
+          "attributes": {
+            "pace": 78,
+            "shooting": 55,
+            "passing": 72,
+            "dribbling": 70,
+            "defending": 75,
+            "physical": 70
+          }
+        },
+        {
+          "name": "Wesley",
+          "position": "DEF",
+          "birth_date": "1999-08-20",
+          "nationality": "Brazil",
+          "shirt_number": 43,
+          "overall": 72,
+          "attributes": {
+            "pace": 80,
+            "shooting": 52,
+            "passing": 70,
+            "dribbling": 72,
+            "defending": 73,
+            "physical": 68
+          }
+        },
+        {
+          "name": "Gerson",
+          "position": "MID",
+          "birth_date": "1997-05-20",
+          "nationality": "Brazil",
+          "shirt_number": 8,
+          "overall": 80,
+          "attributes": {
+            "pace": 75,
+            "shooting": 76,
+            "passing": 82,
+            "dribbling": 78,
+            "defending": 70,
+            "physical": 75
+          }
+        },
+        {
+          "name": "Arrascaeta",
+          "position": "MID",
+          "birth_date": "1994-06-01",
+          "nationality": "Uruguay",
+          "shirt_number": 14,
+          "overall": 82,
+          "attributes": {
+            "pace": 72,
+            "shooting": 78,
+            "passing": 85,
+            "dribbling": 82,
+            "defending": 58,
+            "physical": 68
+          }
+        },
+        {
+          "name": "Éverton Cebolinha",
+          "position": "FWD",
+          "birth_date": "1996-03-11",
+          "nationality": "Brazil",
+          "shirt_number": 11,
+          "overall": 79,
+          "attributes": {
+            "pace": 85,
+            "shooting": 77,
+            "passing": 74,
+            "dribbling": 82,
+            "defending": 42,
+            "physical": 70
+          }
+        },
+        {
+          "name": "Gabriel Barbosa",
+          "position": "FWD",
+          "birth_date": "1996-08-30",
+          "nationality": "Brazil",
+          "shirt_number": 9,
+          "overall": 82,
+          "attributes": {
+            "pace": 85,
+            "shooting": 84,
+            "passing": 70,
+            "dribbling": 78,
+            "defending": 35,
+            "physical": 75
+          }
+        },
+        {
+          "name": "Bruno Henrique",
+          "position": "FWD",
+          "birth_date": "1990-12-30",
+          "nationality": "Brazil",
+          "shirt_number": 27,
+          "overall": 78,
+          "attributes": {
+            "pace": 86,
+            "shooting": 76,
+            "passing": 72,
+            "dribbling": 77,
+            "defending": 40,
+            "physical": 74
+          }
+        },
+        {
+          "name": "Pedro",
+          "position": "FWD",
+          "birth_date": "1997-06-20",
+          "nationality": "Brazil",
+          "shirt_number": 21,
+          "overall": 81,
+          "attributes": {
+            "pace": 76,
+            "shooting": 85,
+            "passing": 72,
+            "dribbling": 75,
+            "defending": 38,
+            "physical": 80
+          }
+        }
+      ]
+    },
+    {
+      "name": "Palmeiras",
+      "short_name": "PAL",
+      "stadium": {
+        "name": "Allianz Parque",
+        "capacity": 43713
+      },
+      "budget": 48000000,
+      "reputation": 84,
+      "players": [
+        {
+          "name": "Weverton",
+          "position": "GK",
+          "birth_date": "1987-12-13",
+          "nationality": "Brazil",
+          "shirt_number": 21,
+          "overall": 80,
+          "attributes": {
+            "diving": 82,
+            "handling": 80,
+            "kicking": 75,
+            "reflexes": 84,
+            "positioning": 78
+          }
+        },
+        {
+          "name": "Gustavo Gómez",
+          "position": "DEF",
+          "birth_date": "1993-05-06",
+          "nationality": "Paraguay",
+          "shirt_number": 15,
+          "overall": 82,
+          "attributes": {
+            "pace": 70,
+            "shooting": 58,
+            "passing": 72,
+            "dribbling": 62,
+            "defending": 86,
+            "physical": 84
+          }
+        },
+        {
+          "name": "Murilo",
+          "position": "DEF",
+          "birth_date": "1996-08-20",
+          "nationality": "Brazil",
+          "shirt_number": 26,
+          "overall": 76,
+          "attributes": {
+            "pace": 74,
+            "shooting": 42,
+            "passing": 70,
+            "dribbling": 58,
+            "defending": 80,
+            "physical": 78
+          }
+        },
+        {
+          "name": "Marcos Rocha",
+          "position": "DEF",
+          "birth_date": "1988-03-18",
+          "nationality": "Brazil",
+          "shirt_number": 2,
+          "overall": 74,
+          "attributes": {
+            "pace": 72,
+            "shooting": 52,
+            "passing": 73,
+            "dribbling": 68,
+            "defending": 77,
+            "physical": 73
+          }
+        },
+        {
+          "name": "Piquerez",
+          "position": "DEF",
+          "birth_date": "1998-12-05",
+          "nationality": "Uruguay",
+          "shirt_number": 22,
+          "overall": 77,
+          "attributes": {
+            "pace": 78,
+            "shooting": 58,
+            "passing": 76,
+            "dribbling": 72,
+            "defending": 78,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Zé Rafael",
+          "position": "MID",
+          "birth_date": "1993-01-17",
+          "nationality": "Brazil",
+          "shirt_number": 8,
+          "overall": 77,
+          "attributes": {
+            "pace": 72,
+            "shooting": 70,
+            "passing": 76,
+            "dribbling": 74,
+            "defending": 74,
+            "physical": 78
+          }
+        },
+        {
+          "name": "Raphael Veiga",
+          "position": "MID",
+          "birth_date": "1995-06-19",
+          "nationality": "Brazil",
+          "shirt_number": 23,
+          "overall": 81,
+          "attributes": {
+            "pace": 70,
+            "shooting": 82,
+            "passing": 83,
+            "dribbling": 80,
+            "defending": 60,
+            "physical": 68
+          }
+        },
+        {
+          "name": "Dudu",
+          "position": "FWD",
+          "birth_date": "1992-01-07",
+          "nationality": "Brazil",
+          "shirt_number": 7,
+          "overall": 80,
+          "attributes": {
+            "pace": 82,
+            "shooting": 78,
+            "passing": 78,
+            "dribbling": 84,
+            "defending": 45,
+            "physical": 70
+          }
+        },
+        {
+          "name": "Rony",
+          "position": "FWD",
+          "birth_date": "1995-02-11",
+          "nationality": "Brazil",
+          "shirt_number": 10,
+          "overall": 78,
+          "attributes": {
+            "pace": 88,
+            "shooting": 74,
+            "passing": 70,
+            "dribbling": 76,
+            "defending": 38,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Endrick",
+          "position": "FWD",
+          "birth_date": "2006-07-21",
+          "nationality": "Brazil",
+          "shirt_number": 9,
+          "overall": 75,
+          "attributes": {
+            "pace": 84,
+            "shooting": 78,
+            "passing": 68,
+            "dribbling": 76,
+            "defending": 30,
+            "physical": 70
+          }
+        }
+      ]
+    },
+    {
+      "name": "São Paulo",
+      "short_name": "SAO",
+      "stadium": {
+        "name": "Morumbi",
+        "capacity": 66795
+      },
+      "budget": 42000000,
+      "reputation": 80,
+      "players": [
+        {
+          "name": "Rafael",
+          "position": "GK",
+          "birth_date": "1990-06-24",
+          "nationality": "Brazil",
+          "shirt_number": 23,
+          "overall": 76,
+          "attributes": {
+            "diving": 78,
+            "handling": 76,
+            "kicking": 70,
+            "reflexes": 79,
+            "positioning": 74
+          }
+        },
+        {
+          "name": "Diego Costa",
+          "position": "DEF",
+          "birth_date": "1999-08-15",
+          "nationality": "Brazil",
+          "shirt_number": 3,
+          "overall": 74,
+          "attributes": {
+            "pace": 72,
+            "shooting": 44,
+            "passing": 68,
+            "dribbling": 60,
+            "defending": 78,
+            "physical": 76
+          }
+        },
+        {
+          "name": "Arboleda",
+          "position": "DEF",
+          "birth_date": "1991-10-22",
+          "nationality": "Ecuador",
+          "shirt_number": 5,
+          "overall": 77,
+          "attributes": {
+            "pace": 74,
+            "shooting": 48,
+            "passing": 70,
+            "dribbling": 58,
+            "defending": 82,
+            "physical": 80
+          }
+        },
+        {
+          "name": "Rafinha",
+          "position": "DEF",
+          "birth_date": "1985-09-07",
+          "nationality": "Brazil",
+          "shirt_number": 13,
+          "overall": 75,
+          "attributes": {
+            "pace": 68,
+            "shooting": 58,
+            "passing": 78,
+            "dribbling": 74,
+            "defending": 76,
+            "physical": 70
+          }
+        },
+        {
+          "name": "Welington",
+          "position": "DEF",
+          "birth_date": "2001-01-16",
+          "nationality": "Brazil",
+          "shirt_number": 6,
+          "overall": 72,
+          "attributes": {
+            "pace": 78,
+            "shooting": 50,
+            "passing": 70,
+            "dribbling": 72,
+            "defending": 72,
+            "physical": 68
+          }
+        },
+        {
+          "name": "Alisson",
+          "position": "MID",
+          "birth_date": "1995-10-12",
+          "nationality": "Brazil",
+          "shirt_number": 25,
+          "overall": 74,
+          "attributes": {
+            "pace": 74,
+            "shooting": 68,
+            "passing": 76,
+            "dribbling": 74,
+            "defending": 72,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Lucas Moura",
+          "position": "MID",
+          "birth_date": "1992-08-13",
+          "nationality": "Brazil",
+          "shirt_number": 7,
+          "overall": 79,
+          "attributes": {
+            "pace": 86,
+            "shooting": 74,
+            "passing": 76,
+            "dribbling": 82,
+            "defending": 48,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Luciano",
+          "position": "FWD",
+          "birth_date": "1993-05-28",
+          "nationality": "Brazil",
+          "shirt_number": 10,
+          "overall": 77,
+          "attributes": {
+            "pace": 76,
+            "shooting": 80,
+            "passing": 74,
+            "dribbling": 78,
+            "defending": 42,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Calleri",
+          "position": "FWD",
+          "birth_date": "1993-09-29",
+          "nationality": "Argentina",
+          "shirt_number": 9,
+          "overall": 78,
+          "attributes": {
+            "pace": 74,
+            "shooting": 82,
+            "passing": 70,
+            "dribbling": 72,
+            "defending": 40,
+            "physical": 80
+          }
+        }
+      ]
+    },
+    {
+      "name": "Corinthians",
+      "short_name": "COR",
+      "stadium": {
+        "name": "Neo Química Arena",
+        "capacity": 49205
+      },
+      "budget": 40000000,
+      "reputation": 79,
+      "players": [
+        {
+          "name": "Cássio",
+          "position": "GK",
+          "birth_date": "1987-06-06",
+          "nationality": "Brazil",
+          "shirt_number": 12,
+          "overall": 79,
+          "attributes": {
+            "diving": 82,
+            "handling": 78,
+            "kicking": 72,
+            "reflexes": 83,
+            "positioning": 80
+          }
+        },
+        {
+          "name": "Fagner",
+          "position": "DEF",
+          "birth_date": "1989-06-11",
+          "nationality": "Brazil",
+          "shirt_number": 23,
+          "overall": 75,
+          "attributes": {
+            "pace": 70,
+            "shooting": 60,
+            "passing": 74,
+            "dribbling": 72,
+            "defending": 78,
+            "physical": 76
+          }
+        },
+        {
+          "name": "Gil",
+          "position": "DEF",
+          "birth_date": "1987-01-21",
+          "nationality": "Brazil",
+          "shirt_number": 4,
+          "overall": 76,
+          "attributes": {
+            "pace": 68,
+            "shooting": 46,
+            "passing": 70,
+            "dribbling": 58,
+            "defending": 80,
+            "physical": 78
+          }
+        },
+        {
+          "name": "Fábio Santos",
+          "position": "DEF",
+          "birth_date": "1980-10-09",
+          "nationality": "Brazil",
+          "shirt_number": 26,
+          "overall": 72,
+          "attributes": {
+            "pace": 66,
+            "shooting": 54,
+            "passing": 76,
+            "dribbling": 70,
+            "defending": 74,
+            "physical": 68
+          }
+        },
+        {
+          "name": "Renato Augusto",
+          "position": "MID",
+          "birth_date": "1988-02-08",
+          "nationality": "Brazil",
+          "shirt_number": 8,
+          "overall": 78,
+          "attributes": {
+            "pace": 68,
+            "shooting": 76,
+            "passing": 82,
+            "dribbling": 78,
+            "defending": 65,
+            "physical": 74
+          }
+        },
+        {
+          "name": "Giuliano",
+          "position": "MID",
+          "birth_date": "1990-05-31",
+          "nationality": "Brazil",
+          "shirt_number": 10,
+          "overall": 76,
+          "attributes": {
+            "pace": 72,
+            "shooting": 74,
+            "passing": 78,
+            "dribbling": 76,
+            "defending": 58,
+            "physical": 72
+          }
+        },
+        {
+          "name": "Yuri Alberto",
+          "position": "FWD",
+          "birth_date": "2001-03-18",
+          "nationality": "Brazil",
+          "shirt_number": 9,
+          "overall": 76,
+          "attributes": {
+            "pace": 82,
+            "shooting": 78,
+            "passing": 68,
+            "dribbling": 74,
+            "defending": 35,
+            "physical": 76
+          }
+        },
+        {
+          "name": "Róger Guedes",
+          "position": "FWD",
+          "birth_date": "1996-12-25",
+          "nationality": "Brazil",
+          "shirt_number": 11,
+          "overall": 77,
+          "attributes": {
+            "pace": 84,
+            "shooting": 76,
+            "passing": 72,
+            "dribbling": 80,
+            "defending": 40,
+            "physical": 70
+          }
+        }
+      ]
+    }
+  ]
+}

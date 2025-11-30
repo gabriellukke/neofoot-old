@@ -1,48 +1,76 @@
 <script lang="ts">
-  import Button from '../lib/components/ui/button/button.svelte';
-  import LanguageSelector from '../lib/components/LanguageSelector.svelte';
   import { _, isLoading } from 'svelte-i18n';
+  import { Button } from '$lib/components/ui/button';
+  import { exit } from '@tauri-apps/plugin-process';
+  import { goto } from '$app/navigation';
 
-  async function handleNewGame() {}
-  async function handleLoadGame() {}
-  async function handleSettings() {}
-  async function handleQuit() {}
+  function handleNewGame() {
+    goto('/new-game');
+  }
+
+  function handleLoadGame() {
+    console.log('Load Game clicked');
+  }
+
+  function handleTeamEditor() {
+    goto('/editor');
+  }
+
+  async function handleExit() {
+    await exit(0);
+  }
 </script>
 
 {#if $isLoading}
-  <div class="flex min-h-screen items-center justify-center">
-    <div class="text-muted-foreground">Loading...</div>
-  </div>
+  <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+    <div class="text-white">Loading...</div>
+  </main>
 {:else}
-  <main
-    class="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center gap-10 px-6 py-12 bg-background"
-  >
-    <header class="text-center">
-      <h1 class="text-foreground text-4xl font-bold tracking-tight">{$_('app.title')}</h1>
-    </header>
+  <main class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+    <div class="mb-12 text-center">
+      <h1 class="text-6xl font-bold text-white mb-2">{$_('app.title')}</h1>
+      <p class="text-slate-400 text-lg">{$_('app.subtitle')}</p>
+    </div>
 
-    <nav aria-label="Main menu" class="w-full max-w-sm">
-      <ul class="flex flex-col gap-3">
-        <li>
-          <Button class="w-full justify-start" onclick={handleNewGame}>{$_('menu.newGame')}</Button>
-        </li>
-        <li>
-          <Button class="w-full justify-start" onclick={handleLoadGame}>{$_('menu.loadGame')}</Button>
-        </li>
-        <li>
-          <Button class="w-full justify-start" onclick={handleSettings}>{$_('menu.settings')}</Button>
-        </li>
-        <li>
-          <Button variant="destructive" class="w-full justify-start" onclick={handleQuit}
-            >{$_('menu.quit')}</Button
-          >
-        </li>
-      </ul>
-    </nav>
+    <div class="flex flex-col gap-4 w-80">
+      <Button
+        size="lg"
+        class="text-lg py-6"
+        onclick={handleNewGame}
+      >
+        {$_('menu.newGame')}
+      </Button>
 
-    <footer class="text-muted-foreground flex w-full items-center justify-between text-xs">
-      <span>{$_('version')}</span>
-      <LanguageSelector />
-    </footer>
+      <Button
+        size="lg"
+        class="text-lg py-6"
+        variant="outline"
+        onclick={handleLoadGame}
+      >
+        {$_('menu.loadGame')}
+      </Button>
+
+      <Button
+        size="lg"
+        class="text-lg py-6"
+        variant="outline"
+        onclick={handleTeamEditor}
+      >
+        {$_('menu.teamEditor')}
+      </Button>
+
+      <Button
+        size="lg"
+        class="text-lg py-6"
+        variant="destructive"
+        onclick={handleExit}
+      >
+        {$_('menu.exit')}
+      </Button>
+    </div>
+
+    <div class="absolute bottom-8 text-slate-500 text-sm">
+      {$_('version')}
+    </div>
   </main>
 {/if}

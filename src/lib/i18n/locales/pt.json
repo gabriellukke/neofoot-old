@@ -6,8 +6,149 @@
   "menu": {
     "newGame": "Novo Jogo",
     "loadGame": "Carregar Jogo",
-    "settings": "Configurações",
-    "quit": "Sair"
+    "teamEditor": "Editor de Times",
+    "exit": "Sair do Jogo"
+  },
+  "editor": {
+    "title": "Editor de Times e Ligas",
+    "backToMenu": "Voltar ao Menu",
+    "importSection": {
+      "title": "Importar Dados de Liga",
+      "description": "Importe times e jogadores de arquivos JSON. Arquivos de liga criados pela comunidade podem ser usados para personalizar seu jogo.",
+      "importButton": "Importar Arquivo de Liga"
+    },
+    "leaguesSection": {
+      "title": "Ligas Importadas",
+      "noLeagues": "Nenhuma liga importada ainda.",
+      "viewLeague": "Ver Liga"
+    },
+    "errors": {
+      "invalidFile": "Formato de arquivo inválido. Por favor, selecione um arquivo JSON válido.",
+      "importFailed": "Falha ao importar liga",
+      "noGameSelected": "Nenhum jogo selecionado. Por favor, crie ou carregue um jogo primeiro.",
+      "fileReadError": "Falha ao ler arquivo"
+    },
+    "success": {
+      "importComplete": "Liga importada com sucesso"
+    }
+  },
+  "league": {
+    "title": "Detalhes da Liga",
+    "backToEditor": "Voltar ao Editor",
+    "teamsTitle": "Times",
+    "noTeams": "Nenhum time encontrado nesta liga.",
+    "viewTeam": "Ver Time",
+    "info": {
+      "country": "País",
+      "division": "Divisão",
+      "season": "Temporada"
+    },
+    "errors": {
+      "invalidId": "ID de Liga Inválido",
+      "invalidIdMessage": "O ID da liga fornecido é inválido. Redirecionando ao editor...",
+      "noGame": "Nenhum Jogo Encontrado",
+      "noGameMessage": "Nenhum jogo encontrado. Por favor, crie um jogo primeiro.",
+      "notFound": "Liga Não Encontrada",
+      "notFoundMessage": "A liga solicitada não pôde ser encontrada.",
+      "loadFailed": "Falha ao Carregar Liga"
+    }
+  },
+  "team": {
+    "title": "Detalhes do Time",
+    "backToLeague": "Voltar à Liga",
+    "playersTitle": "Jogadores",
+    "noPlayers": "Nenhum jogador encontrado neste time.",
+    "info": {
+      "stadium": "Estádio",
+      "capacity": "Capacidade",
+      "budget": "Orçamento",
+      "reputation": "Reputação"
+    },
+    "player": {
+      "position": "Posição",
+      "nationality": "Nacionalidade",
+      "age": "Idade",
+      "number": "Número",
+      "overall": "Overall"
+    },
+    "errors": {
+      "invalidId": "ID de Time Inválido",
+      "invalidIdMessage": "O ID do time fornecido é inválido. Redirecionando ao editor...",
+      "noGame": "Nenhum Jogo Encontrado",
+      "noGameMessage": "Nenhum jogo encontrado. Por favor, crie um jogo primeiro.",
+      "notFound": "Time Não Encontrado",
+      "notFoundMessage": "O time solicitado não pôde ser encontrado.",
+      "loadFailed": "Falha ao Carregar Time"
+    }
+  },
+  "newGame": {
+    "title": "Novo Jogo",
+    "backToMenu": "Voltar ao Menu",
+    "selectLeague": "Selecionar Liga",
+    "selectLeaguePrompt": "Selecione uma liga para ver os times",
+    "selectTeam": "Selecione Seu Time",
+    "startGame": "Iniciar Jogo",
+    "selected": "Selecionado",
+    "noTeams": "Nenhum time encontrado nesta liga.",
+    "leagueInfo": {
+      "division": "Divisão",
+      "season": "Temporada"
+    },
+    "noLeagues": {
+      "title": "Nenhuma Liga Disponível",
+      "message": "Você precisa importar ligas antes de iniciar um novo jogo. Vá ao Editor de Times para importar dados de liga.",
+      "goToEditor": "Ir para o Editor de Times"
+    },
+    "errors": {
+      "loadFailed": "Falha ao Carregar Dados",
+      "loadTeamsFailed": "Falha ao Carregar Times"
+    }
+  },
+  "manage": {
+    "menu": "Menu",
+    "season": "Temporada",
+    "squad": {
+      "title": "Elenco",
+      "players": "jogadores"
+    },
+    "positions": {
+      "goalkeepers": "Goleiros",
+      "defenders": "Defensores",
+      "midfielders": "Meio-campistas",
+      "forwards": "Atacantes"
+    },
+    "table": {
+      "number": "#",
+      "pos": "Pos",
+      "name": "Nome",
+      "age": "Idade",
+      "nat": "Nac",
+      "ovr": "OVR"
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "number": "Número",
+      "name": "Nome",
+      "age": "Idade",
+      "nationality": "Nacionalidade",
+      "overall": "Overall"
+    },
+    "nextMatch": {
+      "title": "Próximo Jogo",
+      "noMatch": "Nenhum jogo agendado"
+    },
+    "teamInfo": {
+      "title": "Info do Time"
+    },
+    "standings": {
+      "title": "Classificação",
+      "notAvailable": "Ainda não disponível"
+    },
+    "errors": {
+      "teamNotFound": "Time Não Encontrado",
+      "teamNotFoundMessage": "O time não pôde ser encontrado. Redirecionando ao menu principal...",
+      "loadFailed": "Falha ao Carregar Dados do Jogo"
+    }
   },
   "version": "v0.1.0"
 }

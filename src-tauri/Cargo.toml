@@ -20,6 +20,25 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tokio = { version = "1", features = ["full"] }
+
+# DB + types
+sqlx = { version = "0.7", features = [
+  "sqlite",
+  "runtime-tokio-rustls",
+  "macros",
+  "migrate",
+  "uuid",
+  "chrono"
+] }
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Util
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-
+anyhow = "1"
+tauri-plugin-process = "2.3.1"
+tauri-plugin-log = "2.7.1"
