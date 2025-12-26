@@ -2,6 +2,7 @@
   import { _, isLoading } from 'svelte-i18n';
   import { Button } from '$lib/components/ui/button';
   import { Alert } from '$lib/components/ui/alert';
+  import Dialog from '$lib/components/ui/dialog/Dialog.svelte';
   import { invoke } from '@tauri-apps/api/core';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -94,6 +95,10 @@
   let isLoadingData = $state(true);
   let groupByPosition = $state(false);
   let error = $state<string | null>(null);
+  let showSaveDialog = $state(false);
+  let saveName = $state('');
+  let isSaving = $state(false);
+  let currentSaveId = $state<number | null>(null);
   let alertState = $state<AlertState>({
     open: false,
     title: '',
@@ -132,8 +137,7 @@
 
       playersByPosition = groupPlayersByPosition(allPlayers);
 
-      const allLeagues = await invoke<League[]>('get_leagues', { gameId: 1 });
-      league = allLeagues.find(l => l.id === foundTeam.league_id) || null;
+      league = await invoke<League | null>('get_league', { leagueId: foundTeam.league_id });
 
     } catch (err) {
       console.error('Failed to load game data:', err);
@@ -258,6 +262,69 @@
       minimumFractionDigits: 0,
     }).format(value);
   }
+
+  function handleSaveGameClick() {
+    if (!team) return;
+    // Generate default save name
+    const now = new Date();
+    saveName = `${team.name} - ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    showSaveDialog = true;
+  }
+
+  function closeSaveDialog() {
+    showSaveDialog = false;
+    saveName = '';
+  }
+
+  async function handleSaveGame() {
+    if (!team || !league || !saveName.trim()) {
+      showAlert($_('manage.saveGame.errors.nameRequired'), $_('manage.saveGame.errors.nameRequiredMessage'));
+      return;
+    }
+
+    try {
+      isSaving = true;
+
+      const gameState = JSON.stringify({
+        teamId: team.id,
+        timestamp: new Date().toISOString(),
+      });
+
+      const currentDate = new Date().toISOString().split('T')[0];
+      const season = league.season;
+
+      if (currentSaveId) {
+        await invoke('update_saved_game', {
+          id: currentSaveId,
+          currentDate,
+          season,
+          gameState,
+        });
+      } else {
+        const result = await invoke('create_saved_game', {
+          gameId: league.game_id,
+          saveName: saveName.trim(),
+          teamId: team.id,
+          currentDate,
+          season,
+          gameState,
+        });
+        currentSaveId = (result as any).id;
+      }
+
+      showAlert(
+        $_('manage.saveGame.success.saveComplete'),
+        $_('manage.saveGame.success.saveCompleteMessage'),
+        'success'
+      );
+      closeSaveDialog();
+    } catch (err) {
+      console.error('Failed to save game:', err);
+      showAlert($_('manage.saveGame.errors.saveFailed'), String(err));
+    } finally {
+      isSaving = false;
+    }
+  }
 </script>
 
 <Alert
@@ -267,6 +334,35 @@
   variant={alertState.variant}
   onClose={closeAlert}
 />
+
+<Dialog
+  open={showSaveDialog}
+  title={$_('manage.saveGame.title')}
+  onClose={closeSaveDialog}
+>
+  {#snippet children()}
+    <div class="space-y-4">
+      <div>
+        <label for="saveName" class="block text-sm font-medium text-slate-300 mb-2">
+          {$_('manage.saveGame.nameLabel')}
+        </label>
+        <input
+          id="saveName"
+          type="text"
+          bind:value={saveName}
+          class="w-full rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder={$_('manage.saveGame.namePlaceholder')}
+          disabled={isSaving}
+        />
+      </div>
+    </div>
+  {/snippet}
+  {#snippet actions()}
+    <Button onclick={handleSaveGame} disabled={isSaving}>
+      {isSaving ? $_('manage.saveGame.saving') : $_('manage.saveGame.saveButton')}
+    </Button>
+  {/snippet}
+</Dialog>
 
 {#if $isLoading}
   <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
@@ -301,6 +397,9 @@
             <p class="text-xs text-slate-400">{$_('team.info.budget')}</p>
             <p class="text-lg font-semibold text-white">{formatCurrency(team.budget)}</p>
           </div>
+          <Button variant="default" size="sm" onclick={handleSaveGameClick}>
+            {$_('manage.saveGame.button')}
+          </Button>
           <Button variant="outline" size="sm" onclick={handleBackToMenu}>
             {$_('manage.menu')}
           </Button>

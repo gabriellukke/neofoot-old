@@ -160,6 +160,53 @@
       "teamNotFound": "Equipo No Encontrado",
       "teamNotFoundMessage": "No se pudo encontrar el equipo. Redirigiendo al menú principal...",
       "loadFailed": "Error al Cargar Datos del Juego"
+    },
+    "saveGame": {
+      "button": "Guardar Partida",
+      "title": "Guardar Partida",
+      "nameLabel": "Nombre de la Partida",
+      "namePlaceholder": "Ingresa un nombre para esta partida",
+      "saveButton": "Guardar",
+      "saving": "Guardando...",
+      "success": {
+        "saveComplete": "Partida Guardada",
+        "saveCompleteMessage": "Tu progreso se ha guardado exitosamente."
+      },
+      "errors": {
+        "nameRequired": "Nombre Requerido",
+        "nameRequiredMessage": "Por favor ingresa un nombre para la partida.",
+        "saveFailed": "Error al Guardar Partida"
+      }
+    }
+  },
+  "loadGame": {
+    "title": "Cargar Juego",
+    "backToMenu": "Volver al Menú",
+    "loadButton": "Cargar",
+    "deleteButton": "Eliminar",
+    "noSaves": {
+      "title": "Sin Partidas Guardadas",
+      "message": "Aún no tienes partidas guardadas. Inicia un nuevo juego para crear tu primera partida guardada."
+    },
+    "saveInfo": {
+      "season": "Temporada",
+      "date": "Fecha",
+      "lastPlayed": "Última vez jugado"
+    },
+    "deleteDialog": {
+      "title": "Eliminar Partida Guardada",
+      "message": "¿Estás seguro de que quieres eliminar '{saveName}'? Esta acción no se puede deshacer.",
+      "confirmButton": "Eliminar Partida"
+    },
+    "errors": {
+      "loadFailed": "Error al Cargar Partidas",
+      "noGameMessage": "No se encontró ningún juego. Por favor, crea un juego primero.",
+      "deleteFailed": "Error al Eliminar Partida",
+      "deleteFailedMessage": "No se pudo eliminar la partida guardada."
+    },
+    "success": {
+      "deleteComplete": "Partida Eliminada",
+      "deleteCompleteMessage": "La partida guardada se ha eliminado exitosamente."
     }
   },
   "version": "v0.1.0"

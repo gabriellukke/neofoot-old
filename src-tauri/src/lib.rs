@@ -1,8 +1,10 @@
 mod infrastructure;
 mod models;
+mod repositories;
 
 use infrastructure::{db, league_importer};
-use models::{Game, League, Player, Team};
+use models::{Game, League, Player, SavedGame, SavedGameWithTeamName, Team};
+use repositories::{GameRepository, LeagueRepository, PlayerRepository, SavedGameRepository, TeamRepository};
 use tauri::{Manager, State};
 
 struct AppState {
@@ -16,28 +18,28 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 async fn create_game(state: State<'_, AppState>, name: String) -> Result<Game, String> {
-    Game::create(state.db.clone(), name)
+    GameRepository::create(&state.db, name)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_all_games(state: State<'_, AppState>) -> Result<Vec<Game>, String> {
-    Game::get_all(state.db.clone())
+    GameRepository::find_all(&state.db)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_game(state: State<'_, AppState>, id: i64) -> Result<Option<Game>, String> {
-    Game::get_by_id(state.db.clone(), id)
+    GameRepository::find_by_id(&state.db, id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn delete_game(state: State<'_, AppState>, id: i64) -> Result<bool, String> {
-    Game::delete(state.db.clone(), id)
+    GameRepository::delete(&state.db, id)
         .await
         .map_err(|e| e.to_string())
 }
@@ -53,42 +55,105 @@ async fn import_league(
 
 #[tauri::command]
 async fn get_leagues(state: State<'_, AppState>, game_id: i64) -> Result<Vec<League>, String> {
-    League::get_by_game_id(state.db.clone(), game_id)
+    LeagueRepository::find_by_game_id(&state.db, game_id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_league(state: State<'_, AppState>, league_id: i64) -> Result<Option<League>, String> {
-    League::get_by_id(state.db.clone(), league_id)
+    LeagueRepository::find_by_id(&state.db, league_id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn delete_league(state: State<'_, AppState>, league_id: i64) -> Result<bool, String> {
-    League::delete(state.db.clone(), league_id)
+    LeagueRepository::delete(&state.db, league_id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_team(state: State<'_, AppState>, team_id: i64) -> Result<Option<Team>, String> {
-    Team::get_by_id(state.db.clone(), team_id)
+    TeamRepository::find_by_id(&state.db, team_id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_teams(state: State<'_, AppState>, league_id: i64) -> Result<Vec<Team>, String> {
-    Team::get_by_league_id(state.db.clone(), league_id)
+    TeamRepository::find_by_league_id(&state.db, league_id)
         .await
         .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 async fn get_players(state: State<'_, AppState>, team_id: i64) -> Result<Vec<Player>, String> {
-    Player::get_by_team_id(state.db.clone(), team_id)
+    PlayerRepository::find_by_team_id(&state.db, team_id)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn create_saved_game(
+    state: State<'_, AppState>,
+    game_id: i64,
+    save_name: String,
+    team_id: i64,
+    current_date: String,
+    season: i32,
+    game_state: String,
+) -> Result<SavedGame, String> {
+    SavedGameRepository::create(
+        &state.db,
+        game_id,
+        save_name,
+        team_id,
+        current_date,
+        season,
+        game_state,
+    )
+    .await
+    .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn update_saved_game(
+    state: State<'_, AppState>,
+    id: i64,
+    current_date: String,
+    season: i32,
+    game_state: String,
+) -> Result<bool, String> {
+    SavedGameRepository::update(&state.db, id, current_date, season, game_state)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn get_saved_game(
+    state: State<'_, AppState>,
+    id: i64,
+) -> Result<Option<SavedGame>, String> {
+    SavedGameRepository::find_by_id(&state.db, id)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn get_saved_games(
+    state: State<'_, AppState>,
+    game_id: i64,
+) -> Result<Vec<SavedGameWithTeamName>, String> {
+    SavedGameRepository::find_by_game_id(&state.db, game_id)
+        .await
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn delete_saved_game(state: State<'_, AppState>, id: i64) -> Result<bool, String> {
+    SavedGameRepository::delete(&state.db, id)
         .await
         .map_err(|e| e.to_string())
 }
@@ -127,7 +192,12 @@ pub fn run() {
             delete_league,
             get_team,
             get_teams,
-            get_players
+            get_players,
+            create_saved_game,
+            update_saved_game,
+            get_saved_game,
+            get_saved_games,
+            delete_saved_game
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

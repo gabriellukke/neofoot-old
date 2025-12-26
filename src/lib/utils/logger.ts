@@ -1,12 +1,4 @@
-import { debug, info, warn, error, trace } from '@tauri-apps/plugin-log';
-
-export enum LogLevel {
-  TRACE = 'TRACE',
-  DEBUG = 'DEBUG',
-  INFO = 'INFO',
-  WARN = 'WARN',
-  ERROR = 'ERROR'
-}
+import { debug, info, warn, error as logError, trace } from '@tauri-apps/plugin-log';
 
 class Logger {
   private context: string;
@@ -21,35 +13,36 @@ class Logger {
     return `[${timestamp}] [${this.context}] ${message}${dataStr}`;
   }
 
+  // Tauri log functions are async and non-blocking
+  // No console.log to avoid sync overhead
   trace(message: string, data?: Record<string, unknown>): void {
     const formatted = this.formatMessage(message, data);
-    console.log(`🔍 ${formatted}`);
     trace(formatted);
   }
 
   debug(message: string, data?: Record<string, unknown>): void {
     const formatted = this.formatMessage(message, data);
-    console.log(`🐛 ${formatted}`);
     debug(formatted);
   }
 
   info(message: string, data?: Record<string, unknown>): void {
     const formatted = this.formatMessage(message, data);
-    console.log(`ℹ️  ${formatted}`);
     info(formatted);
   }
 
   warn(message: string, data?: Record<string, unknown>): void {
     const formatted = this.formatMessage(message, data);
+    // Keep console.warn for development visibility
     console.warn(`⚠️  ${formatted}`);
     warn(formatted);
   }
 
-  error(message: string, error?: Error | string | unknown, data?: Record<string, unknown>): void {
-    const errorStr = error instanceof Error ? error.message : String(error);
+  error(message: string, err?: Error | string | unknown, data?: Record<string, unknown>): void {
+    const errorStr = err instanceof Error ? err.message : String(err);
     const formatted = this.formatMessage(`${message} | Error: ${errorStr}`, data);
+    // Keep console.error for development visibility
     console.error(`❌ ${formatted}`);
-    error(formatted);
+    logError(formatted);
   }
 }
 

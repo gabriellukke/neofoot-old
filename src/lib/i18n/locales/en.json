@@ -160,6 +160,53 @@
       "teamNotFound": "Team Not Found",
       "teamNotFoundMessage": "The team could not be found. Redirecting to main menu...",
       "loadFailed": "Failed to Load Game Data"
+    },
+    "saveGame": {
+      "button": "Save Game",
+      "title": "Save Game",
+      "nameLabel": "Save Name",
+      "namePlaceholder": "Enter a name for this save",
+      "saveButton": "Save",
+      "saving": "Saving...",
+      "success": {
+        "saveComplete": "Game Saved",
+        "saveCompleteMessage": "Your progress has been saved successfully."
+      },
+      "errors": {
+        "nameRequired": "Name Required",
+        "nameRequiredMessage": "Please enter a name for the save.",
+        "saveFailed": "Failed to Save Game"
+      }
+    }
+  },
+  "loadGame": {
+    "title": "Load Game",
+    "backToMenu": "Back to Menu",
+    "loadButton": "Load",
+    "deleteButton": "Delete",
+    "noSaves": {
+      "title": "No Saved Games",
+      "message": "You don't have any saved games yet. Start a new game to create your first save."
+    },
+    "saveInfo": {
+      "season": "Season",
+      "date": "Date",
+      "lastPlayed": "Last played"
+    },
+    "deleteDialog": {
+      "title": "Delete Saved Game",
+      "message": "Are you sure you want to delete '{saveName}'? This action cannot be undone.",
+      "confirmButton": "Delete Save"
+    },
+    "errors": {
+      "loadFailed": "Failed to Load Saves",
+      "noGameMessage": "No game found. Please create a game first.",
+      "deleteFailed": "Failed to Delete Save",
+      "deleteFailedMessage": "The saved game could not be deleted."
+    },
+    "success": {
+      "deleteComplete": "Save Deleted",
+      "deleteCompleteMessage": "The saved game has been deleted successfully."
     }
   },
   "version": "v0.1.0"

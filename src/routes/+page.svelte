@@ -9,7 +9,7 @@
   }
 
   function handleLoadGame() {
-    console.log('Load Game clicked');
+    goto('/load-game');
   }
 
   function handleTeamEditor() {

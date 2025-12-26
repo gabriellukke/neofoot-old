@@ -160,6 +160,53 @@
       "teamNotFound": "Time Não Encontrado",
       "teamNotFoundMessage": "O time não pôde ser encontrado. Redirecionando ao menu principal...",
       "loadFailed": "Falha ao Carregar Dados do Jogo"
+    },
+    "saveGame": {
+      "button": "Salvar Jogo",
+      "title": "Salvar Jogo",
+      "nameLabel": "Nome do Salvamento",
+      "namePlaceholder": "Digite um nome para este salvamento",
+      "saveButton": "Salvar",
+      "saving": "Salvando...",
+      "success": {
+        "saveComplete": "Jogo Salvo",
+        "saveCompleteMessage": "Seu progresso foi salvo com sucesso."
+      },
+      "errors": {
+        "nameRequired": "Nome Obrigatório",
+        "nameRequiredMessage": "Por favor, digite um nome para o salvamento.",
+        "saveFailed": "Falha ao Salvar Jogo"
+      }
+    }
+  },
+  "loadGame": {
+    "title": "Carregar Jogo",
+    "backToMenu": "Voltar ao Menu",
+    "loadButton": "Carregar",
+    "deleteButton": "Excluir",
+    "noSaves": {
+      "title": "Sem Jogos Salvos",
+      "message": "Você ainda não tem jogos salvos. Inicie um novo jogo para criar seu primeiro salvamento."
+    },
+    "saveInfo": {
+      "season": "Temporada",
+      "date": "Data",
+      "lastPlayed": "Última vez jogado"
+    },
+    "deleteDialog": {
+      "title": "Excluir Jogo Salvo",
+      "message": "Tem certeza de que deseja excluir '{saveName}'? Esta ação não pode ser desfeita.",
+      "confirmButton": "Excluir Salvamento"
+    },
+    "errors": {
+      "loadFailed": "Falha ao Carregar Salvamentos",
+      "noGameMessage": "Nenhum jogo encontrado. Por favor, crie um jogo primeiro.",
+      "deleteFailed": "Falha ao Excluir Salvamento",
+      "deleteFailedMessage": "O jogo salvo não pôde ser excluído."
+    },
+    "success": {
+      "deleteComplete": "Salvamento Excluído",
+      "deleteCompleteMessage": "O jogo salvo foi excluído com sucesso."
     }
   },
   "version": "v0.1.0"

@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use crate::infrastructure::db::Pool;
-use crate::models::{League, Player, PlayerAttributes, Team};
+use crate::models::PlayerAttributes;
+use crate::repositories::{LeagueRepository, PlayerRepository, TeamRepository};
 
 #[derive(Debug, Deserialize)]
 pub struct LeagueFile {
@@ -60,8 +61,8 @@ pub async fn import_league_from_json(
     let league_file: LeagueFile = serde_json::from_str(json_content)
         .map_err(|e| format!("Failed to parse JSON: {}", e))?;
 
-    let league = League::create(
-        pool.clone(),
+    let league = LeagueRepository::create(
+        &pool,
         game_id,
         league_file.league.name,
         league_file.league.country,
@@ -75,8 +76,8 @@ pub async fn import_league_from_json(
     let mut players_count = 0;
 
     for team_data in league_file.teams {
-        let team = Team::create(
-            pool.clone(),
+        let team = TeamRepository::create(
+            &pool,
             league.id,
             team_data.name,
             team_data.short_name,
@@ -110,8 +111,8 @@ pub async fn import_league_from_json(
                 }
             };
 
-            Player::create(
-                pool.clone(),
+            PlayerRepository::create(
+                &pool,
                 team.id,
                 player_data.name,
                 player_data.position,
