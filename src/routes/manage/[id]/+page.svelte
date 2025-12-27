@@ -88,7 +88,7 @@
     GK: [],
     DEF: [],
     MID: [],
-    FWD: []
+    FWD: [],
   });
   let sortField = $state<SortField>('position');
   let sortDirection = $state<SortDirection>('asc');
@@ -103,10 +103,14 @@
     open: false,
     title: '',
     message: '',
-    variant: 'info'
+    variant: 'info',
   });
 
-  function showAlert(title: string, message: string, variant: 'info' | 'error' | 'success' | 'warning' = 'error') {
+  function showAlert(
+    title: string,
+    message: string,
+    variant: 'info' | 'error' | 'success' | 'warning' = 'error',
+  ) {
     alertState = { open: true, title, message, variant };
   }
 
@@ -138,7 +142,6 @@
       playersByPosition = groupPlayersByPosition(allPlayers);
 
       league = await invoke<League | null>('get_league', { leagueId: foundTeam.league_id });
-
     } catch (err) {
       console.error('Failed to load game data:', err);
       error = String(err);
@@ -193,10 +196,10 @@
       GK: [],
       DEF: [],
       MID: [],
-      FWD: []
+      FWD: [],
     };
 
-    allPlayers.forEach(player => {
+    allPlayers.forEach((player) => {
       const pos = player.position.toUpperCase();
       if (pos === 'GK') {
         grouped.GK.push(player);
@@ -278,7 +281,10 @@
 
   async function handleSaveGame() {
     if (!team || !league || !saveName.trim()) {
-      showAlert($_('manage.saveGame.errors.nameRequired'), $_('manage.saveGame.errors.nameRequiredMessage'));
+      showAlert(
+        $_('manage.saveGame.errors.nameRequired'),
+        $_('manage.saveGame.errors.nameRequiredMessage'),
+      );
       return;
     }
 
@@ -309,13 +315,13 @@
           season,
           gameState,
         });
-        currentSaveId = (result as any).id;
+        currentSaveId = result.id;
       }
 
       showAlert(
         $_('manage.saveGame.success.saveComplete'),
         $_('manage.saveGame.success.saveCompleteMessage'),
-        'success'
+        'success',
       );
       closeSaveDialog();
     } catch (err) {
@@ -335,22 +341,18 @@
   onClose={closeAlert}
 />
 
-<Dialog
-  open={showSaveDialog}
-  title={$_('manage.saveGame.title')}
-  onClose={closeSaveDialog}
->
+<Dialog open={showSaveDialog} title={$_('manage.saveGame.title')} onClose={closeSaveDialog}>
   {#snippet children()}
     <div class="space-y-4">
       <div>
-        <label for="saveName" class="block text-sm font-medium text-slate-300 mb-2">
+        <label for="saveName" class="mb-2 block text-sm font-medium text-slate-300">
           {$_('manage.saveGame.nameLabel')}
         </label>
         <input
           id="saveName"
           type="text"
           bind:value={saveName}
-          class="w-full rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          class="w-full rounded-md border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           placeholder={$_('manage.saveGame.namePlaceholder')}
           disabled={isSaving}
         />
@@ -365,18 +367,24 @@
 </Dialog>
 
 {#if $isLoading}
-  <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+  <main
+    class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800"
+  >
     <div class="text-white">Loading...</div>
   </main>
 {:else if isLoadingData}
-  <main class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+  <main
+    class="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800"
+  >
     <div class="text-white">Loading game data...</div>
   </main>
 {:else if error}
-  <main class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8">
+  <main
+    class="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-900 to-slate-800 p-8"
+  >
     <div class="text-center">
       <h1 class="mb-4 text-3xl font-bold text-white">{$_('manage.errors.loadFailed')}</h1>
-      <p class="text-slate-400 max-w-md">{error}</p>
+      <p class="max-w-md text-slate-400">{error}</p>
     </div>
     <Button variant="outline" onclick={handleBackToMenu}>
       {$_('manage.menu')}
@@ -389,7 +397,10 @@
         <div class="flex items-center gap-6">
           <div>
             <h1 class="text-2xl font-bold text-white">{team.name}</h1>
-            <p class="text-sm text-slate-400">{league?.name || ''} - {$_('manage.season')} {league?.season || ''}</p>
+            <p class="text-sm text-slate-400">
+              {league?.name || ''} - {$_('manage.season')}
+              {league?.season || ''}
+            </p>
           </div>
         </div>
         <div class="flex items-center gap-4">
@@ -411,7 +422,7 @@
       <aside class="w-80 border-r border-slate-700 bg-slate-900/30 p-4">
         <div class="space-y-4">
           <div class="rounded-lg bg-slate-800/50 p-4">
-            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            <h2 class="mb-3 text-sm font-semibold tracking-wide text-slate-400 uppercase">
               {$_('manage.nextMatch.title')}
             </h2>
             <div class="space-y-2 text-sm text-slate-300">
@@ -420,7 +431,7 @@
           </div>
 
           <div class="rounded-lg bg-slate-800/50 p-4">
-            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            <h2 class="mb-3 text-sm font-semibold tracking-wide text-slate-400 uppercase">
               {$_('manage.teamInfo.title')}
             </h2>
             <div class="space-y-2 text-sm">
@@ -440,7 +451,7 @@
           </div>
 
           <div class="rounded-lg bg-slate-800/50 p-4">
-            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            <h2 class="mb-3 text-sm font-semibold tracking-wide text-slate-400 uppercase">
               {$_('manage.standings.title')}
             </h2>
             <div class="space-y-2 text-sm text-slate-300">
@@ -456,9 +467,9 @@
             <h2 class="text-2xl font-bold text-white">{$_('manage.squad.title')}</h2>
             <p class="text-sm text-slate-400">{players.length} {$_('manage.squad.players')}</p>
           </div>
-          <Button 
-            variant={groupByPosition ? 'default' : 'outline'} 
-            size="sm" 
+          <Button
+            variant={groupByPosition ? 'default' : 'outline'}
+            size="sm"
             onclick={toggleGroupByPosition}
           >
             {groupByPosition ? $_('manage.squad.groupedView') : $_('manage.squad.listView')}
@@ -466,223 +477,541 @@
         </div>
 
         {#if groupByPosition}
-        <div class="space-y-6">
-          {#if playersByPosition.GK.length > 0}
-            <div>
-              <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
-                {$_('manage.positions.goalkeepers')}
-              </h3>
-              <div class="rounded-lg bg-slate-800/20 overflow-hidden">
-                <div class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2">
-                  <button type="button" onclick={() => handleSort('number')} class="w-8 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'number' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.number')}
-                    {#if sortField === 'number'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <span class="w-12 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">{$_('manage.table.pos')}</span>
-                  <button type="button" onclick={() => handleSort('name')} class="flex-1 text-left text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'name' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.name')}
-                    {#if sortField === 'name'}<span class="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('age')} class="w-16 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'age' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.age')}
-                    {#if sortField === 'age'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('nationality')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'nationality' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.nat')}
-                    {#if sortField === 'nationality'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('overall')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'overall' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.ovr')}
-                    {#if sortField === 'overall'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                </div>
-                {#each playersByPosition.GK as player}
-                  <div class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50">
-                    <span class="w-8 text-center font-semibold text-slate-300">{player.shirt_number}</span>
-                    <span class="w-12 rounded bg-yellow-600 px-2 py-1 text-center text-xs font-semibold text-white">{player.position}</span>
-                    <span class="flex-1 font-medium text-white">{player.name}</span>
-                    <span class="w-16 text-center text-sm text-slate-300">{calculateAge(player.birth_date)}</span>
-                    <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
-                    <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+          <div class="space-y-6">
+            {#if playersByPosition.GK.length > 0}
+              <div>
+                <h3 class="mb-2 text-sm font-semibold tracking-wide text-slate-400 uppercase">
+                  {$_('manage.positions.goalkeepers')}
+                </h3>
+                <div class="overflow-hidden rounded-lg bg-slate-800/20">
+                  <div
+                    class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2"
+                  >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('number')}
+                      class="w-8 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'number'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.number')}
+                      {#if sortField === 'number'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <span
+                      class="w-12 text-center text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                      >{$_('manage.table.pos')}</span
+                    >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('name')}
+                      class="flex-1 text-left text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'name'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.name')}
+                      {#if sortField === 'name'}<span class="ml-1"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('age')}
+                      class="w-16 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'age'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.age')}
+                      {#if sortField === 'age'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('nationality')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'nationality'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.nat')}
+                      {#if sortField === 'nationality'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('overall')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'overall'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.ovr')}
+                      {#if sortField === 'overall'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
                   </div>
-                {/each}
+                  {#each playersByPosition.GK as player}
+                    <div
+                      class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50"
+                    >
+                      <span class="w-8 text-center font-semibold text-slate-300"
+                        >{player.shirt_number}</span
+                      >
+                      <span
+                        class="w-12 rounded bg-yellow-600 px-2 py-1 text-center text-xs font-semibold text-white"
+                        >{player.position}</span
+                      >
+                      <span class="flex-1 font-medium text-white">{player.name}</span>
+                      <span class="w-16 text-center text-sm text-slate-300"
+                        >{calculateAge(player.birth_date)}</span
+                      >
+                      <span class="w-12 text-center text-sm text-slate-300"
+                        >{player.nationality}</span
+                      >
+                      <span class="w-12 text-center font-semibold text-white">{player.overall}</span
+                      >
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
-          {/if}
+            {/if}
 
-          {#if playersByPosition.DEF.length > 0}
-            <div>
-              <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
-                {$_('manage.positions.defenders')}
-              </h3>
-              <div class="rounded-lg bg-slate-800/20 overflow-hidden">
-                <div class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2">
-                  <button type="button" onclick={() => handleSort('number')} class="w-8 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'number' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.number')}
-                    {#if sortField === 'number'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <span class="w-12 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">{$_('manage.table.pos')}</span>
-                  <button type="button" onclick={() => handleSort('name')} class="flex-1 text-left text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'name' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.name')}
-                    {#if sortField === 'name'}<span class="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('age')} class="w-16 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'age' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.age')}
-                    {#if sortField === 'age'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('nationality')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'nationality' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.nat')}
-                    {#if sortField === 'nationality'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('overall')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'overall' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.ovr')}
-                    {#if sortField === 'overall'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                </div>
-                {#each playersByPosition.DEF as player}
-                  <div class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50">
-                    <span class="w-8 text-center font-semibold text-slate-300">{player.shirt_number}</span>
-                    <span class="w-12 rounded bg-blue-600 px-2 py-1 text-center text-xs font-semibold text-white">{player.position}</span>
-                    <span class="flex-1 font-medium text-white">{player.name}</span>
-                    <span class="w-16 text-center text-sm text-slate-300">{calculateAge(player.birth_date)}</span>
-                    <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
-                    <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+            {#if playersByPosition.DEF.length > 0}
+              <div>
+                <h3 class="mb-2 text-sm font-semibold tracking-wide text-slate-400 uppercase">
+                  {$_('manage.positions.defenders')}
+                </h3>
+                <div class="overflow-hidden rounded-lg bg-slate-800/20">
+                  <div
+                    class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2"
+                  >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('number')}
+                      class="w-8 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'number'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.number')}
+                      {#if sortField === 'number'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <span
+                      class="w-12 text-center text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                      >{$_('manage.table.pos')}</span
+                    >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('name')}
+                      class="flex-1 text-left text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'name'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.name')}
+                      {#if sortField === 'name'}<span class="ml-1"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('age')}
+                      class="w-16 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'age'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.age')}
+                      {#if sortField === 'age'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('nationality')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'nationality'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.nat')}
+                      {#if sortField === 'nationality'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('overall')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'overall'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.ovr')}
+                      {#if sortField === 'overall'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
                   </div>
-                {/each}
+                  {#each playersByPosition.DEF as player}
+                    <div
+                      class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50"
+                    >
+                      <span class="w-8 text-center font-semibold text-slate-300"
+                        >{player.shirt_number}</span
+                      >
+                      <span
+                        class="w-12 rounded bg-blue-600 px-2 py-1 text-center text-xs font-semibold text-white"
+                        >{player.position}</span
+                      >
+                      <span class="flex-1 font-medium text-white">{player.name}</span>
+                      <span class="w-16 text-center text-sm text-slate-300"
+                        >{calculateAge(player.birth_date)}</span
+                      >
+                      <span class="w-12 text-center text-sm text-slate-300"
+                        >{player.nationality}</span
+                      >
+                      <span class="w-12 text-center font-semibold text-white">{player.overall}</span
+                      >
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
-          {/if}
+            {/if}
 
-          {#if playersByPosition.MID.length > 0}
-            <div>
-              <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
-                {$_('manage.positions.midfielders')}
-              </h3>
-              <div class="rounded-lg bg-slate-800/20 overflow-hidden">
-                <div class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2">
-                  <button type="button" onclick={() => handleSort('number')} class="w-8 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'number' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.number')}
-                    {#if sortField === 'number'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <span class="w-12 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">{$_('manage.table.pos')}</span>
-                  <button type="button" onclick={() => handleSort('name')} class="flex-1 text-left text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'name' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.name')}
-                    {#if sortField === 'name'}<span class="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('age')} class="w-16 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'age' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.age')}
-                    {#if sortField === 'age'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('nationality')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'nationality' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.nat')}
-                    {#if sortField === 'nationality'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('overall')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'overall' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.ovr')}
-                    {#if sortField === 'overall'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                </div>
-                {#each playersByPosition.MID as player}
-                  <div class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50">
-                    <span class="w-8 text-center font-semibold text-slate-300">{player.shirt_number}</span>
-                    <span class="w-12 rounded bg-green-600 px-2 py-1 text-center text-xs font-semibold text-white">{player.position}</span>
-                    <span class="flex-1 font-medium text-white">{player.name}</span>
-                    <span class="w-16 text-center text-sm text-slate-300">{calculateAge(player.birth_date)}</span>
-                    <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
-                    <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+            {#if playersByPosition.MID.length > 0}
+              <div>
+                <h3 class="mb-2 text-sm font-semibold tracking-wide text-slate-400 uppercase">
+                  {$_('manage.positions.midfielders')}
+                </h3>
+                <div class="overflow-hidden rounded-lg bg-slate-800/20">
+                  <div
+                    class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2"
+                  >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('number')}
+                      class="w-8 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'number'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.number')}
+                      {#if sortField === 'number'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <span
+                      class="w-12 text-center text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                      >{$_('manage.table.pos')}</span
+                    >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('name')}
+                      class="flex-1 text-left text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'name'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.name')}
+                      {#if sortField === 'name'}<span class="ml-1"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('age')}
+                      class="w-16 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'age'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.age')}
+                      {#if sortField === 'age'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('nationality')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'nationality'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.nat')}
+                      {#if sortField === 'nationality'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('overall')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'overall'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.ovr')}
+                      {#if sortField === 'overall'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
                   </div>
-                {/each}
+                  {#each playersByPosition.MID as player}
+                    <div
+                      class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50"
+                    >
+                      <span class="w-8 text-center font-semibold text-slate-300"
+                        >{player.shirt_number}</span
+                      >
+                      <span
+                        class="w-12 rounded bg-green-600 px-2 py-1 text-center text-xs font-semibold text-white"
+                        >{player.position}</span
+                      >
+                      <span class="flex-1 font-medium text-white">{player.name}</span>
+                      <span class="w-16 text-center text-sm text-slate-300"
+                        >{calculateAge(player.birth_date)}</span
+                      >
+                      <span class="w-12 text-center text-sm text-slate-300"
+                        >{player.nationality}</span
+                      >
+                      <span class="w-12 text-center font-semibold text-white">{player.overall}</span
+                      >
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
-          {/if}
+            {/if}
 
-          {#if playersByPosition.FWD.length > 0}
-            <div>
-              <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
-                {$_('manage.positions.forwards')}
-              </h3>
-              <div class="rounded-lg bg-slate-800/20 overflow-hidden">
-                <div class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2">
-                  <button type="button" onclick={() => handleSort('number')} class="w-8 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'number' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.number')}
-                    {#if sortField === 'number'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <span class="w-12 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">{$_('manage.table.pos')}</span>
-                  <button type="button" onclick={() => handleSort('name')} class="flex-1 text-left text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'name' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.name')}
-                    {#if sortField === 'name'}<span class="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('age')} class="w-16 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'age' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.age')}
-                    {#if sortField === 'age'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('nationality')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'nationality' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.nat')}
-                    {#if sortField === 'nationality'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                  <button type="button" onclick={() => handleSort('overall')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'overall' ? 'text-blue-400' : 'text-slate-400'}">
-                    {$_('manage.table.ovr')}
-                    {#if sortField === 'overall'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-                  </button>
-                </div>
-                {#each playersByPosition.FWD as player}
-                  <div class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50">
-                    <span class="w-8 text-center font-semibold text-slate-300">{player.shirt_number}</span>
-                    <span class="w-12 rounded bg-red-600 px-2 py-1 text-center text-xs font-semibold text-white">{player.position}</span>
-                    <span class="flex-1 font-medium text-white">{player.name}</span>
-                    <span class="w-16 text-center text-sm text-slate-300">{calculateAge(player.birth_date)}</span>
-                    <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
-                    <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+            {#if playersByPosition.FWD.length > 0}
+              <div>
+                <h3 class="mb-2 text-sm font-semibold tracking-wide text-slate-400 uppercase">
+                  {$_('manage.positions.forwards')}
+                </h3>
+                <div class="overflow-hidden rounded-lg bg-slate-800/20">
+                  <div
+                    class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2"
+                  >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('number')}
+                      class="w-8 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'number'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.number')}
+                      {#if sortField === 'number'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <span
+                      class="w-12 text-center text-xs font-semibold tracking-wide text-slate-400 uppercase"
+                      >{$_('manage.table.pos')}</span
+                    >
+                    <button
+                      type="button"
+                      onclick={() => handleSort('name')}
+                      class="flex-1 text-left text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'name'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.name')}
+                      {#if sortField === 'name'}<span class="ml-1"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('age')}
+                      class="w-16 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'age'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.age')}
+                      {#if sortField === 'age'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('nationality')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'nationality'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.nat')}
+                      {#if sortField === 'nationality'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
+                    <button
+                      type="button"
+                      onclick={() => handleSort('overall')}
+                      class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                      'overall'
+                        ? 'text-blue-400'
+                        : 'text-slate-400'}"
+                    >
+                      {$_('manage.table.ovr')}
+                      {#if sortField === 'overall'}<span class="ml-0.5"
+                          >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                        >{/if}
+                    </button>
                   </div>
-                {/each}
+                  {#each playersByPosition.FWD as player}
+                    <div
+                      class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50"
+                    >
+                      <span class="w-8 text-center font-semibold text-slate-300"
+                        >{player.shirt_number}</span
+                      >
+                      <span
+                        class="w-12 rounded bg-red-600 px-2 py-1 text-center text-xs font-semibold text-white"
+                        >{player.position}</span
+                      >
+                      <span class="flex-1 font-medium text-white">{player.name}</span>
+                      <span class="w-16 text-center text-sm text-slate-300"
+                        >{calculateAge(player.birth_date)}</span
+                      >
+                      <span class="w-12 text-center text-sm text-slate-300"
+                        >{player.nationality}</span
+                      >
+                      <span class="w-12 text-center font-semibold text-white">{player.overall}</span
+                      >
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
-          {/if}
-        </div>
-        {:else}
-        <div class="rounded-lg bg-slate-800/20 overflow-hidden">
-          <div class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2">
-            <button type="button" onclick={() => handleSort('number')} class="w-8 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'number' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.number')}
-              {#if sortField === 'number'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
-            <button type="button" onclick={() => handleSort('position')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'position' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.pos')}
-              {#if sortField === 'position'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
-            <button type="button" onclick={() => handleSort('name')} class="flex-1 text-left text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'name' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.name')}
-              {#if sortField === 'name'}<span class="ml-1">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
-            <button type="button" onclick={() => handleSort('age')} class="w-16 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'age' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.age')}
-              {#if sortField === 'age'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
-            <button type="button" onclick={() => handleSort('nationality')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'nationality' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.nat')}
-              {#if sortField === 'nationality'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
-            <button type="button" onclick={() => handleSort('overall')} class="w-12 text-center text-xs font-semibold uppercase tracking-wide transition-colors hover:text-white {sortField === 'overall' ? 'text-blue-400' : 'text-slate-400'}">
-              {$_('manage.table.ovr')}
-              {#if sortField === 'overall'}<span class="ml-0.5">{sortDirection === 'asc' ? '↑' : '↓'}</span>{/if}
-            </button>
+            {/if}
           </div>
-          {#each sortedPlayers as player}
-            <div class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50">
-              <span class="w-8 text-center font-semibold text-slate-300">{player.shirt_number}</span>
-              <span class="w-12 rounded {
-                player.position.toUpperCase() === 'GK' ? 'bg-yellow-600' :
-                ['DEF', 'CB', 'LB', 'RB', 'LWB', 'RWB'].includes(player.position.toUpperCase()) ? 'bg-blue-600' :
-                ['MID', 'CM', 'CDM', 'CAM', 'LM', 'RM'].includes(player.position.toUpperCase()) ? 'bg-green-600' :
-                'bg-red-600'
-              } px-2 py-1 text-center text-xs font-semibold text-white">{player.position}</span>
-              <span class="flex-1 font-medium text-white">{player.name}</span>
-              <span class="w-16 text-center text-sm text-slate-300">{calculateAge(player.birth_date)}</span>
-              <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
-              <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+        {:else}
+          <div class="overflow-hidden rounded-lg bg-slate-800/20">
+            <div
+              class="flex items-center gap-4 border-b border-slate-700 bg-slate-800/50 px-4 py-2"
+            >
+              <button
+                type="button"
+                onclick={() => handleSort('number')}
+                class="w-8 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'number'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.number')}
+                {#if sortField === 'number'}<span class="ml-0.5"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
+              <button
+                type="button"
+                onclick={() => handleSort('position')}
+                class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'position'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.pos')}
+                {#if sortField === 'position'}<span class="ml-0.5"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
+              <button
+                type="button"
+                onclick={() => handleSort('name')}
+                class="flex-1 text-left text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'name'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.name')}
+                {#if sortField === 'name'}<span class="ml-1"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
+              <button
+                type="button"
+                onclick={() => handleSort('age')}
+                class="w-16 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'age'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.age')}
+                {#if sortField === 'age'}<span class="ml-0.5"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
+              <button
+                type="button"
+                onclick={() => handleSort('nationality')}
+                class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'nationality'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.nat')}
+                {#if sortField === 'nationality'}<span class="ml-0.5"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
+              <button
+                type="button"
+                onclick={() => handleSort('overall')}
+                class="w-12 text-center text-xs font-semibold tracking-wide uppercase transition-colors hover:text-white {sortField ===
+                'overall'
+                  ? 'text-blue-400'
+                  : 'text-slate-400'}"
+              >
+                {$_('manage.table.ovr')}
+                {#if sortField === 'overall'}<span class="ml-0.5"
+                    >{sortDirection === 'asc' ? '↑' : '↓'}</span
+                  >{/if}
+              </button>
             </div>
-          {/each}
-        </div>
+            {#each sortedPlayers as player}
+              <div
+                class="flex items-center gap-4 border-b border-slate-700/50 px-4 py-3 transition-colors hover:bg-slate-800/50"
+              >
+                <span class="w-8 text-center font-semibold text-slate-300"
+                  >{player.shirt_number}</span
+                >
+                <span
+                  class="w-12 rounded {player.position.toUpperCase() === 'GK'
+                    ? 'bg-yellow-600'
+                    : ['DEF', 'CB', 'LB', 'RB', 'LWB', 'RWB'].includes(
+                          player.position.toUpperCase(),
+                        )
+                      ? 'bg-blue-600'
+                      : ['MID', 'CM', 'CDM', 'CAM', 'LM', 'RM'].includes(
+                            player.position.toUpperCase(),
+                          )
+                        ? 'bg-green-600'
+                        : 'bg-red-600'} px-2 py-1 text-center text-xs font-semibold text-white"
+                  >{player.position}</span
+                >
+                <span class="flex-1 font-medium text-white">{player.name}</span>
+                <span class="w-16 text-center text-sm text-slate-300"
+                  >{calculateAge(player.birth_date)}</span
+                >
+                <span class="w-12 text-center text-sm text-slate-300">{player.nationality}</span>
+                <span class="w-12 text-center font-semibold text-white">{player.overall}</span>
+              </div>
+            {/each}
+          </div>
         {/if}
       </main>
     </div>
