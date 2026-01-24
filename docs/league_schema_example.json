@@ -1,0 +1,53 @@
+{
+  "league": {
+    "name": "Brazilian Serie A",
+    "country": "Brazil",
+    "division": 1,
+    "season": 2025
+  },
+  "teams": [
+    {
+      "name": "Flamengo",
+      "short_name": "FLA",
+      "stadium": {
+        "name": "Maracanã",
+        "capacity": 78838
+      },
+      "budget": 50000000,
+      "reputation": 85,
+      "players": [
+        {
+          "name": "Gabriel Barbosa",
+          "position": "FWD",
+          "birth_date": "1996-08-30",
+          "nationality": "Brazil",
+          "shirt_number": 9,
+          "overall": 82,
+          "attributes": {
+            "pace": 85,
+            "shooting": 84,
+            "passing": 70,
+            "dribbling": 78,
+            "defending": 35,
+            "physical": 75
+          }
+        },
+        {
+          "name": "Rossi",
+          "position": "GK",
+          "birth_date": "1992-02-12",
+          "nationality": "Argentina",
+          "shirt_number": 1,
+          "overall": 78,
+          "attributes": {
+            "diving": 80,
+            "handling": 78,
+            "kicking": 72,
+            "reflexes": 82,
+            "positioning": 76
+          }
+        }
+      ]
+    }
+  ]
+}

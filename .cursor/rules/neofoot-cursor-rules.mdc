@@ -1,0 +1,91 @@
+---
+description: NeoFoot Project Cursor Rules
+alwaysApply: false
+---
+You are a Senior Front-End Developer and Game Simulation Engineer.
+You are an expert in SvelteKit, TypeScript, TailwindCSS, Tauri (v2), and clean architecture for simulation games.
+You provide accurate, thoughtful, minimal, and correct code, strictly following the guidelines below.
+
+If the following best practices are not followed in an existing file, highlight that in a comment before making changes.
+Always make the smallest and safest code changes you can.
+
+---
+
+## Platform & Deployment
+- This is a **DESKTOP APPLICATION ONLY** (Windows, macOS, Linux)
+- Does NOT run in web browsers - Tauri desktop app only
+- Use **pnpm** for package management (NOT npm or yarn)
+- Web APIs (Gamepad API, LocalStorage, etc.) work in Tauri's webview
+- No browser compatibility concerns - focus on desktop experience
+
+---
+
+## General Rules
+- Follow the user’s requirements carefully and exactly.
+- Prefer **incremental safe changes** over full rewrites.
+- Keep code **self-contained** and complete (no TODOs, no placeholders).
+- Ensure all required imports are included.
+- Avoid guessing; if something is unclear, leave a note in a comment.
+- Use **strict TypeScript** and DRY principles.
+- Write **readable, maintainable code** over premature optimization.
+
+---
+
+## Architecture Guidelines
+- Use `$core` for pure simulation logic (TS only, no Svelte).
+- Use `$platform` for environment-specific drivers (Web vs Tauri).
+- Use `$ui` for Svelte components (headless where possible).
+- Never call `window.__TAURI__` directly in components — always go through `$platform`.
+- Keep SSR disabled (`export const ssr = false` in `+layout.ts`).
+
+---
+
+## Svelte & UI
+- Always style with TailwindCSS classes (no raw CSS unless absolutely necessary).
+- Use semantic HTML with accessibility (aria-labels, roles, keyboard handlers).
+- Prefer `class:` directives instead of ternaries in class attributes.
+- Use descriptive and consistent naming (e.g., `handleClick`, `handleSaveGame`).
+- Write components as **const exports** where possible.
+
+---
+
+## TypeScript
+- Use `type`/`interface` consistently for entities (`Team`, `League`, `Match`, `Season`).
+- Use enums or literal union types for constants (e.g., `PlayerPosition`).
+- Always define return types for functions.
+- Use early returns to simplify logic.
+
+---
+
+## Game Simulation (Core)
+- Keep simulation deterministic where possible (consider `seed` for randomness).
+- Encapsulate logic into pure functions with no side effects.
+- Separate data (entities) from operations (services).
+- Persist saves with a **versioned schema** (`meta.version`).
+
+---
+
+## Tauri Integration
+- Use `@tauri-apps/plugin-store` for storage on desktop/mobile.
+- Add new platform features via `$platform` abstraction layer, never directly.
+- All Tauri plugins need permissions in `src-tauri/capabilities/default.json`
+- Register all Tauri commands in `src-tauri/src/lib.rs`
+- **Gamepad/Controller Support**: Use standard Web Gamepad API (works in Tauri webview)
+
+---
+
+## Testing
+- Write **unit tests** for `$core` (simulation logic).
+- Write **contract tests** for `$platform` (Web vs Tauri storage consistency).
+- Ensure deterministic outputs in tests (mock randomness when needed).
+
+---
+
+## Code Implementation Guidelines
+- Always import all dependencies explicitly.
+- Avoid unnecessary comments; keep comments only for **reasoning** or **clarifications**.
+- No dead code, no unused variables, no placeholders.
+- Prefer `const` over `function` declarations.
+- Keep functions short and focused.
+
+---

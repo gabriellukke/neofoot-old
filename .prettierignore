@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.svelte-kit
+src-tauri/target
+
+# Generated files
+*.min.js
+*.min.css
+
+# Config files that shouldn't be formatted
+package-lock.json
+yarn.lock
+
+# IDE files
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
