@@ -1,8 +1,10 @@
 import type { MatchStats } from '$lib/match';
-import type { Schedule } from '$lib/domain/league';
+import type { MatchFixture, Schedule } from '$lib/domain/league';
+
+export type TeamId = string;
 
 export interface SeasonTeam {
-  id: string;
+  id: TeamId;
   name: string;
 }
 
@@ -19,6 +21,7 @@ export interface SeasonState {
   schedule: Schedule;
   currentRoundIndex: number;
   resultsByRound: MatchResult[][];
+  userTeamId?: TeamId;
   meta: {
     seed: number;
     version: string;
@@ -29,4 +32,10 @@ export interface CreateSeasonStateInput {
   teams: SeasonTeam[];
   schedule: Schedule;
   seed: number;
+}
+
+export interface UserMatchInRound {
+  roundIndex: number;
+  fixture: MatchFixture;
+  result: MatchResult | null;
 }

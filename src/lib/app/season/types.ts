@@ -42,4 +42,26 @@ export interface SeasonView {
   resultsByRound: SeasonRoundResultsView[];
 }
 
+export interface MyTeamNextMatch {
+  roundIndex: number;
+  opponentName: string;
+  isHome: boolean;
+}
+
+export interface MyTeamLastResult {
+  roundIndex: number;
+  opponentName: string;
+  isHome: boolean;
+  goalsFor: number;
+  goalsAgainst: number;
+  outcome: 'W' | 'D' | 'L';
+}
+
+export interface MyTeamDashboard {
+  teamName: string;
+  position: number | null;
+  nextMatch: MyTeamNextMatch | null;
+  lastResults: MyTeamLastResult[];
+}
+
 export type { LeagueSchedule, TeamInfo };

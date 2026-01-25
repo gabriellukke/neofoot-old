@@ -3,6 +3,10 @@ import {
   applyRoundResults,
   advanceRound,
   createSeasonState,
+  getRoundProgress,
+  isRoundComplete,
+  getUserMatchInRound,
+  getUserTeam,
   getStandingsFromSeason,
   isSeasonFinished,
 } from './season';
@@ -34,6 +38,7 @@ describe('createSeasonState', () => {
     expect(state.schedule).toEqual(schedule);
     expect(state.currentRoundIndex).toBe(0);
     expect(state.resultsByRound).toEqual([[], []]);
+    expect(state.userTeamId).toBeUndefined();
     expect(state.meta.seed).toBe(7);
     expect(state.meta.version).toBe('0.1');
   });
@@ -52,8 +57,18 @@ describe('applyRoundResults', () => {
 });
 
 describe('advanceRound', () => {
-  it('should not advance past the final round', () => {
+  it('should not advance while current round is incomplete', () => {
     const state = createSeasonState({ teams, schedule, seed: 1 });
+    const next = advanceRound(state);
+
+    expect(next).toEqual(state);
+  });
+
+  it('should not advance past the final round', () => {
+    let state = createSeasonState({ teams, schedule, seed: 1 });
+    state = applyRoundResults(state, 0, [
+      { homeTeamId: 'team-1', awayTeamId: 'team-2', homeGoals: 1, awayGoals: 0 },
+    ]);
     const next = advanceRound(state);
     const last = advanceRound(next);
     const stillLast = advanceRound(last);
@@ -92,5 +107,44 @@ describe('standings and season completion', () => {
       { homeTeamId: 'team-2', awayTeamId: 'team-1', homeGoals: 1, awayGoals: 1 },
     ]);
     expect(isSeasonFinished(state)).toBe(true);
+  });
+});
+
+describe('round progress helpers', () => {
+  it('should return progress and completion status', () => {
+    let state = createSeasonState({ teams, schedule, seed: 2 });
+    const initial = getRoundProgress(state, 0);
+
+    expect(initial.fixturesCount).toBe(1);
+    expect(initial.resultsCount).toBe(0);
+    expect(initial.isComplete).toBe(false);
+
+    state = applyRoundResults(state, 0, [
+      { homeTeamId: 'team-1', awayTeamId: 'team-2', homeGoals: 0, awayGoals: 0 },
+    ]);
+    const completed = getRoundProgress(state, 0);
+
+    expect(completed.resultsCount).toBe(1);
+    expect(isRoundComplete(state, 0)).toBe(true);
+  });
+});
+
+describe('user team helpers', () => {
+  it('should return the selected user team', () => {
+    const state = createSeasonState({ teams, schedule, seed: 9 });
+    const withUser = { ...state, userTeamId: 'team-1' };
+    const userTeam = getUserTeam(withUser);
+
+    expect(userTeam?.id).toBe('team-1');
+  });
+
+  it('should return the user match in a round when available', () => {
+    const state = createSeasonState({ teams, schedule, seed: 9 });
+    const withUser = { ...state, userTeamId: 'team-2' };
+    const matchInfo = getUserMatchInRound(withUser, 0);
+
+    expect(matchInfo?.fixture.homeTeamId).toBe('team-1');
+    expect(matchInfo?.fixture.awayTeamId).toBe('team-2');
+    expect(matchInfo?.result).toBeNull();
   });
 });

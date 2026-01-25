@@ -1,8 +1,14 @@
 <script lang="ts">
   import type { TeamInfo } from '$lib/app/league';
-  import { getSeasonView, simulateCurrentRound, startNewSeason } from '$lib/app/season';
+  import {
+    getMyTeamDashboard,
+    getSeasonView,
+    setUserTeam,
+    simulateCurrentRound,
+    simulateMyMatchOnly,
+    startNewSeason,
+  } from '$lib/app/season';
   import type { SeasonState } from '$lib/domain/season';
-  import { advanceRound } from '$lib/domain/season';
 
   type HistoryMatch = {
     id: string;
@@ -60,7 +66,6 @@
     seasonState ? seasonState.resultsByRound[seasonState.currentRoundIndex]?.length ?? 0 : 0
   );
   const canSimulate = $derived(!!seasonState && currentRoundMatches > 0 && currentRoundResults < currentRoundMatches);
-  const canAdvance = $derived(!!seasonState && seasonState.currentRoundIndex < totalRounds - 1);
   const historyRounds = $derived(buildHistoryRounds(seasonState));
   const selectedHistoryRound = $derived(
     historyRounds.find((round) => round.roundIndex === selectedHistoryRoundIndex) ?? null
@@ -72,6 +77,10 @@
   );
   const canNavigatePrev = $derived(selectedMatchIndex > 0);
   const canNavigateNext = $derived(selectedMatchIndex >= 0 && selectedMatchIndex < filteredMatches.length - 1);
+  const myTeamDashboard = $derived(seasonState ? getMyTeamDashboard(seasonState) : null);
+  const canSimulateMyMatch = $derived(
+    !!seasonState && !!seasonState.userTeamId && canSimulate && !hasUserMatchResult(seasonState)
+  );
 
   function startSeason() {
     seasonState = startNewSeason({ teams, seed });
@@ -108,9 +117,15 @@
     seasonState = simulateCurrentRound(seasonState);
   }
 
-  function advanceToNextRound() {
+  function simulateMyMatch() {
     if (!seasonState) return;
-    seasonState = advanceRound(seasonState);
+    seasonState = simulateMyMatchOnly(seasonState);
+  }
+
+
+  function updateUserTeam(teamId: string) {
+    if (!seasonState) return;
+    seasonState = setUserTeam(seasonState, teamId);
   }
 
   $effect(() => {
@@ -189,6 +204,22 @@
 
   function formatScore(match: { homeGoals: number; awayGoals: number }) {
     return `${match.homeGoals}–${match.awayGoals}`;
+  }
+
+  function hasUserMatchResult(state: SeasonState) {
+    if (!state.userTeamId) return false;
+    const round = state.schedule.rounds[state.currentRoundIndex];
+    if (!round) return false;
+    const fixture = round.matches.find(
+      (match) => match.homeTeamId === state.userTeamId || match.awayTeamId === state.userTeamId
+    );
+    if (!fixture) return false;
+    return (
+      state.resultsByRound[state.currentRoundIndex]?.some(
+        (result) =>
+          result.homeTeamId === fixture.homeTeamId && result.awayTeamId === fixture.awayTeamId
+      ) ?? false
+    );
   }
 
   function handleHistoryKeydown(event: KeyboardEvent) {
@@ -316,6 +347,10 @@
           <p class="text-slate-300 text-sm">
             Round {currentRoundIndex + 1} of {totalRounds}
           </p>
+          <span class="text-slate-500 text-xs">
+            {currentRoundResults}/{currentRoundMatches} played
+          </span>
+          <span class="text-slate-500 text-xs">Auto-advances on completion</span>
           {#if totalRounds === 0}
             <span class="text-slate-500 text-xs">(No rounds)</span>
           {/if}
@@ -324,10 +359,21 @@
         <div class="space-y-3 mb-4">
           {#if seasonView.fixtures.length > 0}
             {#each seasonView.fixtures as fixture}
-              <div class="flex items-center justify-between bg-slate-700 rounded px-3 py-2 text-sm">
+              {@const isUserMatch = seasonState?.userTeamId
+                ? fixture.homeTeamId === seasonState.userTeamId ||
+                  fixture.awayTeamId === seasonState.userTeamId
+                : false}
+              <div
+                class={`flex items-center justify-between rounded px-3 py-2 text-sm ${
+                  isUserMatch ? 'bg-amber-900/30 border border-amber-400/40' : 'bg-slate-700'
+                }`}
+              >
                 <div class="text-slate-200">
                   {fixture.homeTeamName} vs {fixture.awayTeamName}
                 </div>
+                {#if isUserMatch}
+                  <span class="text-xs text-amber-300">My match</span>
+                {/if}
               </div>
             {/each}
           {:else}
@@ -343,14 +389,14 @@
           >
             Simulate Current Round
           </button>
-          <button
-            onclick={advanceToNextRound}
-            class="flex-1 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-500 text-sm"
-            disabled={!canAdvance}
-          >
-            Advance to Next Round
-          </button>
         </div>
+        <button
+          onclick={simulateMyMatch}
+          class="mt-3 w-full px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-500 text-sm disabled:opacity-60"
+          disabled={!canSimulateMyMatch}
+        >
+          Simulate My Match
+        </button>
         <button
           onclick={resetSeason}
           class="mt-3 w-full px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-500 text-sm"
@@ -362,6 +408,75 @@
       {/if}
     </section>
   </div>
+
+  <section class="mt-8 bg-slate-800 rounded-lg p-6">
+    <h2 class="text-xl font-semibold text-white mb-4">My Team</h2>
+
+    {#if !seasonState}
+      <p class="text-slate-400 text-sm">Start a season to select your team.</p>
+    {:else}
+      <div class="flex flex-col gap-4">
+        <label class="text-slate-300 text-sm flex items-center gap-2" for="my-team-select">
+          Team:
+          <select
+            id="my-team-select"
+            class="px-3 py-1.5 bg-slate-700 text-white rounded border border-slate-600 text-sm"
+            onchange={(e) => updateUserTeam(e.currentTarget.value)}
+            value={seasonState.userTeamId ?? ''}
+          >
+            <option value="" disabled>Select team</option>
+            {#each seasonState.teams as team}
+              <option value={team.id}>{team.name}</option>
+            {/each}
+          </select>
+        </label>
+
+        {#if !seasonState.userTeamId}
+          <p class="text-slate-500 text-sm">Pick a team to enable My Match controls.</p>
+        {:else if myTeamDashboard}
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div class="bg-slate-900 rounded p-3 border border-slate-700">
+              <p class="text-slate-400 text-xs">Position</p>
+              <p class="text-white text-lg font-semibold">
+                {myTeamDashboard.position ?? '-'}
+              </p>
+            </div>
+            <div class="bg-slate-900 rounded p-3 border border-slate-700">
+              <p class="text-slate-400 text-xs">Next match</p>
+              {#if myTeamDashboard.nextMatch}
+                <p class="text-white">
+                  {myTeamDashboard.nextMatch.isHome ? 'Home vs' : 'Away at'} {myTeamDashboard.nextMatch.opponentName}
+                </p>
+                <p class="text-slate-500 text-xs mt-1">
+                  Round {myTeamDashboard.nextMatch.roundIndex + 1}
+                </p>
+              {:else}
+                <p class="text-slate-500 text-sm">No upcoming match</p>
+              {/if}
+            </div>
+            <div class="bg-slate-900 rounded p-3 border border-slate-700">
+              <p class="text-slate-400 text-xs">Last 5 results</p>
+              {#if myTeamDashboard.lastResults.length > 0}
+                <div class="mt-2 space-y-1">
+                  {#each myTeamDashboard.lastResults as result}
+                    <div class="flex items-center justify-between text-slate-200">
+                      <span class="text-xs">
+                        {result.outcome} {result.goalsFor}-{result.goalsAgainst}{' '}
+                        {result.isHome ? 'vs' : '@'} {result.opponentName}
+                      </span>
+                      <span class="text-slate-500 text-xs">R{result.roundIndex + 1}</span>
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <p class="text-slate-500 text-sm">No results yet</p>
+              {/if}
+            </div>
+          </div>
+        {/if}
+      </div>
+    {/if}
+  </section>
 
   <section class="mt-8 bg-slate-800 rounded-lg p-6">
     <h2 class="text-xl font-semibold text-white mb-4">Standings</h2>
@@ -471,7 +586,11 @@
                     match.id === selectedMatchId
                       ? 'bg-slate-700 border-slate-500 text-white'
                       : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
-                  }`}
+                  } ${seasonState?.userTeamId &&
+                  (match.homeTeamId === seasonState.userTeamId ||
+                    match.awayTeamId === seasonState.userTeamId)
+                    ? 'ring-1 ring-amber-400/50'
+                    : ''}`}
                   onclick={() => (selectedMatchId = match.id)}
                 >
                   {match.homeTeamName} {formatScore(match)} {match.awayTeamName}
@@ -515,7 +634,14 @@
 
               <div class="border-t border-slate-800 pt-3">
                 <h4 class="text-slate-200 font-semibold text-sm mb-2">Summary</h4>
-                <p class="text-slate-300 text-sm">{getMatchOutcome(selectedMatch)}</p>
+                <p class="text-slate-300 text-sm">
+                  {getMatchOutcome(selectedMatch)}
+                  {seasonState?.userTeamId &&
+                  (selectedMatch.homeTeamId === seasonState.userTeamId ||
+                    selectedMatch.awayTeamId === seasonState.userTeamId)
+                    ? ' · Your match'
+                    : ''}
+                </p>
                 {#if getStatsSummary(selectedMatch)}
                   <p class="text-slate-500 text-sm mt-1">{getStatsSummary(selectedMatch)}</p>
                 {/if}
