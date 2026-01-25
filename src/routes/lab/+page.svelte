@@ -9,6 +9,9 @@
       <li>
         <a href="/lab/match" class="text-blue-400 hover:text-blue-300">Match Simulation</a>
       </li>
+      <li>
+        <a href="/lab/league" class="text-blue-400 hover:text-blue-300">League Schedule</a>
+      </li>
     </ul>
   </nav>
 </main>
