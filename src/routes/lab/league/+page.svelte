@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { TeamInfo } from '$lib/app/league';
+  import FixtureRow from '$lib/ui/FixtureRow.svelte';
+  import StandingsTable from '$lib/ui/StandingsTable.svelte';
   import {
     getMyTeamDashboard,
     getSeasonView,
@@ -101,15 +103,6 @@
 
   function updateTeamName(id: string, name: string) {
     teams = teams.map((t) => (t.id === id ? { ...t, name } : t));
-  }
-
-  function toggleOddTeams() {
-    if (teams.length === 6) {
-      teams = [...teams, { id: `team-${nextId}`, name: `Team ${nextId}` }];
-      nextId++;
-    } else if (teams.length === 7) {
-      teams = teams.slice(0, 6);
-    }
   }
 
   function simulateRound() {
@@ -310,13 +303,6 @@
         >
           Add Team
         </button>
-        <button
-          onclick={toggleOddTeams}
-          class="px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-500 text-sm"
-          disabled={!!seasonState}
-        >
-          {teams.length === 6 ? 'Switch to 7 teams' : teams.length === 7 ? 'Switch to 6 teams' : 'Toggle 6/7'}
-        </button>
       </div>
 
       <div class="flex items-center gap-4 mb-4">
@@ -359,22 +345,13 @@
         <div class="space-y-3 mb-4">
           {#if seasonView.fixtures.length > 0}
             {#each seasonView.fixtures as fixture}
-              {@const isUserMatch = seasonState?.userTeamId
-                ? fixture.homeTeamId === seasonState.userTeamId ||
-                  fixture.awayTeamId === seasonState.userTeamId
-                : false}
-              <div
-                class={`flex items-center justify-between rounded px-3 py-2 text-sm ${
-                  isUserMatch ? 'bg-amber-900/30 border border-amber-400/40' : 'bg-slate-700'
-                }`}
-              >
-                <div class="text-slate-200">
-                  {fixture.homeTeamName} vs {fixture.awayTeamName}
-                </div>
-                {#if isUserMatch}
-                  <span class="text-xs text-amber-300">My match</span>
-                {/if}
-              </div>
+              <FixtureRow
+                homeTeamName={fixture.homeTeamName}
+                awayTeamName={fixture.awayTeamName}
+                homeTeamId={fixture.homeTeamId}
+                awayTeamId={fixture.awayTeamId}
+                userTeamId={seasonState?.userTeamId}
+              />
             {/each}
           {:else}
             <p class="text-slate-500 text-sm">No fixtures for this round.</p>
@@ -481,44 +458,11 @@
   <section class="mt-8 bg-slate-800 rounded-lg p-6">
     <h2 class="text-xl font-semibold text-white mb-4">Standings</h2>
 
-    <div class="overflow-x-auto">
-      {#if seasonView}
-        <table class="w-full text-sm text-slate-200">
-          <thead>
-            <tr class="text-left text-slate-400 border-b border-slate-700">
-              <th class="py-2 pr-2">Pos</th>
-              <th class="py-2 pr-2">Team</th>
-              <th class="py-2 pr-2">P</th>
-              <th class="py-2 pr-2">W</th>
-              <th class="py-2 pr-2">D</th>
-              <th class="py-2 pr-2">L</th>
-              <th class="py-2 pr-2">GF</th>
-              <th class="py-2 pr-2">GA</th>
-              <th class="py-2 pr-2">GD</th>
-              <th class="py-2 pr-2">Pts</th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each seasonView.standings.rows as row, index (row.teamId)}
-              <tr class="border-b border-slate-700">
-                <td class="py-2 pr-2">{index + 1}</td>
-                <td class="py-2 pr-2">{row.teamName}</td>
-                <td class="py-2 pr-2">{row.played}</td>
-                <td class="py-2 pr-2">{row.won}</td>
-                <td class="py-2 pr-2">{row.drawn}</td>
-                <td class="py-2 pr-2">{row.lost}</td>
-                <td class="py-2 pr-2">{row.goalsFor}</td>
-                <td class="py-2 pr-2">{row.goalsAgainst}</td>
-                <td class="py-2 pr-2">{row.goalDifference}</td>
-                <td class="py-2 pr-2 font-semibold">{row.points}</td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
-      {:else}
-        <p class="text-slate-400 text-sm">Start a season to view standings.</p>
-      {/if}
-    </div>
+    {#if seasonView}
+      <StandingsTable rows={seasonView.standings.rows} />
+    {:else}
+      <p class="text-slate-400 text-sm">Start a season to view standings.</p>
+    {/if}
   </section>
 
   <section class="mt-8 bg-slate-800 rounded-lg p-6">
